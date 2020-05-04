@@ -1,0 +1,28 @@
+spring:
+  profiles:
+    active: "dev"
+---
+spring:
+    profiles: dev
+    datasource:
+        password: root
+        url: jdbc:mysql://localhost:3306/simple-bug
+        username: root
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5Dialect
+                format_sql: true
+                id:
+                    new_generator_mappings: false
+logging:
+    level:
+        org:
+            hibernate:
+                SQL: DEBUG
+                type:
+                    descriptor:
+                        sql:
+                            BasicBinder: 'TRACE '
