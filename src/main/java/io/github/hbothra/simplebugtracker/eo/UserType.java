@@ -7,12 +7,14 @@ import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name="USER_TYPE")
-@AttributeOverride(name="TYPE", column = @Column(name="USER_TYPE", nullable = false))
+@AttributeOverride(name="type", column = @Column(name="USER_TYPE", nullable = false))
 public class UserType extends BaseType<UserRole>{
 
 }

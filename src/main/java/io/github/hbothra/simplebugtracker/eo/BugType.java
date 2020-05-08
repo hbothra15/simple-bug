@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name="BUG_TYPE")
-@AttributeOverride(name="TYPE", column = @Column(name="BUG_TYPE", nullable = false))
+@AttributeOverride(name="type", column = @Column(name="BUG_TYPE", nullable = false))
 public class BugType extends BaseType<Bug> {
 
 	@Id

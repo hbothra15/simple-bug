@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name="STATUS_TYPE")
-@AttributeOverride(name="TYPE", column = @Column(name="STATUS_TYPE", nullable = false))
+@AttributeOverride(name="type", column = @Column(name="STATUS_TYPE", nullable = false))
 public class StatusType extends BaseType<Status> {
 
 }
