@@ -25,13 +25,13 @@ jobs:
         java-version: '11'
         java-package: jdk
     - uses: actions/checkout@v2
-    - name: Clone User submodule
+    - name: Checkout submodules
+      shell: bash
       run: |
-        git config --file .gitmodules --get-regexp url | while read url; do
-         echo "$url" | sed -E "s|git@github.com:\|https://github.com/|https://${{ secrets.USER_NAME }}:${{ secrets.LET_ME_IN }}@github.com/|"
-        done
-        git submodule sync
-        git submodule update --init --recursive
+        # From https://github.com/actions/checkout/issues/116#issuecomment-583221947
+        git config --global url."https://github.com/".insteadOf "git@github.com:"
+        git submodule sync --recursive
+        git -c "http.extraheader=Authorization: basic ${{secrets.GITHUB_ACCESS_TOKEN}}" -c protocol.version=2 submodule update --init --force --recursive --depth=1
     - name: Build User with Maven
       run: mvn clean install -f user-auth/pom.xml
     - name: Build Main with Maven
