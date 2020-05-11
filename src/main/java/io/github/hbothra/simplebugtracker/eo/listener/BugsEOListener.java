@@ -1,7 +1,5 @@
 package io.github.hbothra.simplebugtracker.eo.listener;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -18,14 +16,11 @@ public class BugsEOListener {
 		if(null == target.getProject()) {
 			target.setProject(0L);
 		}
-		target.setCreatedOn(LocalDateTime.now());
-		target.setModifiedOn(LocalDateTime.now());
 	}
 	
 	@PreUpdate
 	private void beforeUpdate(Bugs target) {
 		saveDataToHistory(target);
-		target.setModifiedOn(LocalDateTime.now());
 	}
 
 	@Transactional(TxType.MANDATORY)

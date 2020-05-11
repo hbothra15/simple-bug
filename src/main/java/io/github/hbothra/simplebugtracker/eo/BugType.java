@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name="BUG_TYPE")
 @AttributeOverride(name="type", column = @Column(name="BUG_TYPE", nullable = false))
-public class BugType extends BaseType<Bug> {
+public class BugType extends BaseType {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")

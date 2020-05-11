@@ -23,6 +23,7 @@
 	</properties>
 
 	<dependencies>
+		<!-- For JPA Support and excluding Embeded-Tomcat server to use Jetty instead -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -33,6 +34,8 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- For Rest Support and excluding Embeded-Tomcat server to use Jetty 
+			instead -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
@@ -43,20 +46,34 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- For Jetty Support -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jetty</artifactId>
 		</dependency>
+		<!-- For Spring security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<!-- For Spring Error validation and Internationalization -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<!-- For MySQLData base which we shall be using for DEV -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- For Cleaner POJO classes -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<!-- For JUnit support with Spring test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -68,6 +85,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- For H2 In-Memory DB which shall be used for Junit -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -80,6 +98,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version><!--$NO-MVN-MAN-VER$-->
+				<configuration>
+					<release>11</release>
+					<!-- mandatory to compile project with maven 3.3.9, might be removed 
+						with latest version -->
+					<useIncrementalCompilation>false</useIncrementalCompilation>
+					<optimize>true</optimize>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

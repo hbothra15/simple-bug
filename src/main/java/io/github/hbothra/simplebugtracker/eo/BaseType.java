@@ -1,8 +1,6 @@
 package io.github.hbothra.simplebugtracker.eo;
 
 import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,10 +9,12 @@ import javax.persistence.MappedSuperclass;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @MappedSuperclass
-public class BaseType<T> {
+public class BaseType extends AuditTrail{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -23,6 +23,5 @@ public class BaseType<T> {
 	private Long id;
 	
 	@Column(name="TYPE", nullable = false)
-	@Enumerated(EnumType.STRING)
-	private T type;
+	private String type;
 }

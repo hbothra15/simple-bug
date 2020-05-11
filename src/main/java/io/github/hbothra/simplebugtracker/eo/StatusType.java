@@ -13,6 +13,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name="STATUS_TYPE")
 @AttributeOverride(name="type", column = @Column(name="STATUS_TYPE", nullable = false))
-public class StatusType extends BaseType<Status> {
+public class StatusType extends BaseType {
 
 }

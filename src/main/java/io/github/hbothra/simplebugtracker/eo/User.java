@@ -1,25 +1,31 @@
 package io.github.hbothra.simplebugtracker.eo;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name="USER")
 @JsonIgnoreProperties(value = {"addressLine1", "addressLine2", "addressLine3"}, allowGetters = true)
-public class User {
+public class User extends AuditTrail {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -45,7 +51,14 @@ public class User {
 	@Column(name="EMAIL", nullable = true, length = 50)
 	private String email;
 	
-	@JoinColumn(name="USER_TYPE", nullable = false)
-	@OneToOne
-	private UserType userType;
+	@Column(name="PASSWD", nullable = false)
+	private String password;
+	
+	@Transient
+    private String passwordConfirm;
+	
+	@ManyToMany
+	@JoinTable(name="USER_ROLE", joinColumns = @JoinColumn(name="USER_ID"),
+		inverseJoinColumns = @JoinColumn(name="role_id"))
+    private Set<UserRole> roles;
 }

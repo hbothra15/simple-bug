@@ -1,5 +1,25 @@
 package io.github.hbothra.simplebugtracker.eo;
 
-public enum UserRole {
-	ADMIN, SUPPORT, VENDOR
+import java.util.Set;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@Data
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Entity
+@Table(name="USER_TYPE")
+@AttributeOverride(name="type", column = @Column(name="USER_TYPE", nullable = false))
+public class UserRole extends BaseType {
+
+	@ManyToMany(mappedBy = "roles")
+	Set<User> users;
 }

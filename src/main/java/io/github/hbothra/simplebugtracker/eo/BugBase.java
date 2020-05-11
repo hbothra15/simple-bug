@@ -1,7 +1,5 @@
 package io.github.hbothra.simplebugtracker.eo;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -11,11 +9,13 @@ import javax.persistence.MappedSuperclass;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @JsonIgnoreProperties(value = {"modifiedOn"}, allowGetters = true)
 @MappedSuperclass
-public class BugBase {
+public class BugBase extends AuditTrail {
 		
 	@Column(name="BUG_TITLE", nullable = false, length = 50)
 	private String title;
@@ -23,14 +23,7 @@ public class BugBase {
 	@Column(name="BUG_DESCR", nullable = false)
 	@Lob
 	private String descr;
-	
-	@JoinColumn(name="MODIFIED_BY", nullable = false)
-	@ManyToOne
-	private User modifiedBy;
-	
-	@Column(name="MODIFIED_ON", nullable = false)
-	private LocalDateTime modifiedOn;
-	
+		
 	@JoinColumn(name="BUG_TYPE", nullable = false)
 	@ManyToOne
 	private BugType bugType;

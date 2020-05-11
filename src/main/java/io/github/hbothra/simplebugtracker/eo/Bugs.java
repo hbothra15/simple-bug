@@ -1,6 +1,5 @@
 package io.github.hbothra.simplebugtracker.eo;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +10,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -29,7 +26,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "BUGS")
 @EntityListeners(BugsEOListener.class)
-@JsonIgnoreProperties(value = { "createdOn" }, allowGetters = true)
+@JsonIgnoreProperties(value = { "createdOn", "craetedBy" }, allowGetters = true)
 public class Bugs extends BugBase {
 
 	@Id
@@ -37,13 +34,6 @@ public class Bugs extends BugBase {
 	@GenericGenerator(name = "native", strategy = "native")
 	@Column(name = "BUG_ID", nullable = false, updatable = false, insertable = false)
 	private Long bugId;
-
-	@JoinColumn(name = "CREATED_BY", nullable = false, updatable = false)
-	@ManyToOne
-	private User craetedBy;
-
-	@Column(name = "CREATED_ON", nullable = false, updatable = false)
-	private LocalDateTime createdOn;
 
 	@Column(name = "PROJECT", nullable = false, updatable = false)
 	private Long project;

@@ -1,14 +1,11 @@
 package io.github.hbothra.simplebugtracker.eo;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -18,9 +15,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name="BUGS_COMMENTS")
-public class BugsComments {
+public class BugsComments extends AuditTrail {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -32,15 +30,8 @@ public class BugsComments {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Bugs bug;
 	
-	@JoinColumn(name="CREATED_BY", nullable = false, updatable = false)
-	@ManyToOne
-	private User craetedBy;
-	
-	@Column(name="CREATED_ON", nullable = false)
-	private LocalDateTime createdOn;
-	
-	@Column(name="MODIFIED_ON", nullable = false)
-	private LocalDateTime modifiedOn;
+	@Column(name="BUG_ID", nullable = false, insertable = false, updatable = false)
+	private Long bugId;
 	
 	@Column(name="COMMENTS", nullable = false, length = 1000)
 	private String comments;
