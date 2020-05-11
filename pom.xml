@@ -102,9 +102,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version><!--$NO-MVN-MAN-VER$-->
+				<version>3.8.1</version><!--$NO-MVN-MAN-VER$ -->
 				<configuration>
-					<release>11</release>
+					<source>11</source>
+					<target>11</target>
+					<verbose>true</verbose>
 					<!-- mandatory to compile project with maven 3.3.9, might be removed 
 						with latest version -->
 					<useIncrementalCompilation>false</useIncrementalCompilation>
