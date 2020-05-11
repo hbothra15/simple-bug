@@ -26,8 +26,8 @@ jobs:
         java-package: jdk
     - uses: actions/checkout@v2
     - uses: jwsi/submodule-checkout@v1
-        with:
-          ssh-key: '${{ secrets.USER_DEPLOY_KEY }}'
+      with:
+        ssh-key: '${{ secrets.USER_DEPLOY_KEY }}'
     - name: Build User with Maven
       run: mvn clean install -f user-auth/pom.xml
     - name: Build Main with Maven
