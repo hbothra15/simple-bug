@@ -25,15 +25,12 @@ jobs:
         java-version: '11'
         java-package: jdk
     - uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.MY_GITHUB_PAT }}
-
     - name: Checkout submodules
       shell: bash
       run: |
-        auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+        git config --global url."https://github.com/".insteadOf "git@github.com:"
         git submodule sync --recursive
-        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+        git -c "http.extraheader=Authorization: basic ${{secrets.GITHUB_ACCESS_TOKEN}}" -c protocol.version=2 submodule update --init --force --recursive --depth=1
        
     - name: Build User with Maven
       run: mvn clean install -f user-auth/pom.xml
