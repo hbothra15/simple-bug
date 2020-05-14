@@ -26,6 +26,7 @@ jobs:
         java-package: jdk
     - uses: actions/checkout@v2
       with:
+        token: ${{ secrets.USER_LET_ME_IN }}
         submodules: 'true'
        
     - name: Build User with Maven
