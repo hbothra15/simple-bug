@@ -1,8 +1,8 @@
 package io.github.hbothra.simplebugtracker.service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,19 +20,16 @@ public class UserDetailsImpl implements UserDetailsService {
 	@Autowired
 	private UserRepo userRepo;
 	
-	@Value("message.userNotFound")
+	@Value("${message.userNotFound:'Unable to find any user with %s'")
 	private String userNotFound;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = null;
-		// Java email validation permitted by RFC 5322
-		// used from https://howtodoinjava.com/regex/java-regex-validate-email-address
-		if(Pattern.matches("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", username)) {
-			user = userRepo.findByEmail(username);
-		} else {
-			user = userRepo.findByContact(username);
-		}
+		user = Optional
+				.of(userRepo.findByEmail(username)
+						.orElseThrow(() -> new UsernameNotFoundException(String.format(userNotFound, username))))
+				.get();
 		
 		Set<GrantedAuthority> authorities = new HashSet<>();
 		user.getRoles().parallelStream().forEach(role -> {

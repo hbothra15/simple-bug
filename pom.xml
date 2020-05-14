@@ -19,9 +19,21 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8
 		</project.reporting.outputEncoding>
+		<user.version>1.0.0</user.version>
 	</properties>
 
 	<dependencies>
+		<!-- User Auth -->
+		<dependency>
+			<groupId>com.github.hbothra</groupId>
+			<artifactId>user-auth-jwt</artifactId>
+			<version>${user.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hbothra</groupId>
+			<artifactId>user-sec-config</artifactId>
+			<version>${user.version}</version>
+		</dependency>
 		<!-- For JPA Support and excluding Embeded-Tomcat server to use Jetty instead -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -102,6 +114,10 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version><!--$NO-MVN-MAN-VER$ -->
+				<configuration>
+					<source>11</source>
+					<target>11</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
