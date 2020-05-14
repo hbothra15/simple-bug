@@ -1,3 +1,4 @@
+![CI](https://github.com/hbothra15/simple-bug/workflows/CI/badge.svg)
 # SIMPLE-BUG
 This Project is a pet project which is insipred by simp[le-bug-tracker as mentioned in reference
 
