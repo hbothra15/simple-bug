@@ -1,6 +1,7 @@
 package io.github.hbothra.simplebugtracker.eo;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -67,14 +68,15 @@ public class User extends AuditTrail implements com.github.hbothra.user.entity.U
 	@Transient
     private String passwordConfirm;
 	
-	@Column(name="JWT_TOKEN")
-	private String userToken;
-	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name="USER_ROLE", joinColumns = @JoinColumn(name="USER_ID"),
 		inverseJoinColumns = @JoinColumn(name="role_id"))
-    private Set<UserRole> roles;
+    private Set<UserRole> roles = new HashSet<>();
 
+	public void addRole (UserRole role) {
+		roles.add(role);
+	}
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles.parallelStream()
@@ -108,7 +110,8 @@ public class User extends AuditTrail implements com.github.hbothra.user.entity.U
 	}
 
 	@Override
+	@Transient
 	public String getUserToken() {
-		return userToken;
+		return userId.toString();
 	}
 }
