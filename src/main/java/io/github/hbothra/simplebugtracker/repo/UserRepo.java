@@ -20,6 +20,7 @@ public interface UserRepo extends JpaRepository<User, Long>, UserCrudService {
 	Optional<User> findByContact(String contact);
 	
 	@Override
+	@EntityGraph(value = "User.role", type = EntityGraphType.LOAD)
 	default Optional<com.github.hbothra.user.entity.User> findByUserName(String userName) {
 		return Optional.of(findByEmail(userName).orElseThrow());
 	}

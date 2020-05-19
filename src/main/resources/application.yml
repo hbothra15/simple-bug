@@ -46,10 +46,10 @@ spring:
     datasource:
         url: jdbc:h2:mem:testdb
         username: sa
-        initialization-mode: always
+        initialization-mode: never
     jpa:
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: create
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.H2Dialect
@@ -64,4 +64,4 @@ logging:
                 type:
                     descriptor:
                         sql:
-                            BasicBinder: 'TRACE '
+                            BasicBinder: 'TRACE'
