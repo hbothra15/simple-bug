@@ -65,7 +65,7 @@ public class UserRepoTest {
 	public void testFindByUserName() {
 		com.github.hbothra.user.entity.User user = repo.findByUserName("admin@simpleBug.com").get();
 		assertTrue(user instanceof User, "User should be instance of EO User");
-		assertTrue(user.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")));
+		assertTrue(user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
 	}
 
 	@Test
