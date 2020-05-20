@@ -15,7 +15,6 @@ public class UserLoginController {
 	
 	@PostMapping("/login")
 	public String login(@RequestParam("userName") String userName, @RequestParam("pass")String password) {
-		System.err.println(String.format("UserName - %s : password %s", userName, password));
 		return userAuthService.login(userName, password).orElseThrow(() -> new RuntimeException("invalid username / password"));
 	}
 }

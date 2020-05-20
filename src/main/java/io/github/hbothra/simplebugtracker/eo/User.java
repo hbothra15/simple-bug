@@ -24,6 +24,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,6 +36,7 @@ import lombok.EqualsAndHashCode;
 @NamedEntityGraphs({
 	@NamedEntityGraph(name="User.role", attributeNodes = @NamedAttributeNode("roles"))
 })
+@JsonAutoDetect
 public class User extends AuditTrail implements com.github.hbothra.user.entity.User {
 
 	private static final long serialVersionUID = 3047826211552173830L;
@@ -80,7 +83,7 @@ public class User extends AuditTrail implements com.github.hbothra.user.entity.U
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles.parallelStream()
-				.map(role -> new SimpleGrantedAuthority(role.getType()))
+				.map(role -> new SimpleGrantedAuthority("ROLE_" + role.getType().toUpperCase()))
 				.collect(Collectors.toSet());
 	}
 

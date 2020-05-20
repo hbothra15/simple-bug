@@ -8,12 +8,15 @@ import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @MappedSuperclass
+@JsonAutoDetect
 public class BaseType extends AuditTrail{
 
 	@Id
