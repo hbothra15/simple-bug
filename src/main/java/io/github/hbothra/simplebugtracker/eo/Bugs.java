@@ -26,7 +26,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "BUGS")
 @EntityListeners(BugsEOListener.class)
-@JsonIgnoreProperties(value = { "createdOn", "craetedBy" }, allowGetters = true)
+@JsonIgnoreProperties(value = { "createdOn", "createdBy" }, allowGetters = true)
 public class Bugs extends BugBase {
 
 	@Id

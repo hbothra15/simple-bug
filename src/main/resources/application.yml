@@ -47,6 +47,11 @@ spring:
         url: jdbc:h2:mem:testdb
         username: sa
         initialization-mode: never
+        # Below is to make sure we don't keep our db connection open after 20 seconds of inactivity
+        hikari:
+           connection:
+              timeout: 20000
+           maximum-pool-size: 5
     jpa:
         hibernate:
             ddl-auto: none

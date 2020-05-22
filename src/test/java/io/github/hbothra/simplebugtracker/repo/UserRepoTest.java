@@ -36,7 +36,7 @@ import io.github.hbothra.simplebugtracker.eo.UserRole;
 public class UserRepoTest {
 
 	@Autowired
-	UserRepo repo;
+	private UserRepo repo;
 	@Autowired
 	private DataSource dataSource;
 	@Autowired

@@ -1,6 +1,7 @@
 package io.github.hbothra.simplebugtracker.eo;
 
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -31,4 +32,11 @@ public class BugBase extends AuditTrail {
 	@JoinColumn(name="BUG_STATUS", nullable = false)
 	@ManyToOne
 	private StatusType bugStatus;
+	
+	@JoinColumn(name="ASSIGNED_TO",insertable = false, updatable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User assignedTo;
+	
+	@Column(name = "ASSIGNED_TO")
+	private Long assignedToId;
 }
