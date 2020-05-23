@@ -19,6 +19,13 @@ spring:
                 format_sql: true
                 id:
                     new_generator_mappings: false
+
+user:
+   auth:
+      issuer: simple-bug
+      secret: top-secret
+      expiration-sec: 3600
+
 logging:
     level:
         org:
@@ -27,17 +34,27 @@ logging:
                 type:
                     descriptor:
                         sql:
-                            BasicBinder: 'TRACE '
+                            BasicBinder: 'TRACE'
+management:
+   endpoints:
+      web:
+         exposure:
+            include: env,info,health,httptrace,logfile,metrics,mappings,beans
 ---
 spring:
     profiles: test
     datasource:
         url: jdbc:h2:mem:testdb
         username: sa
-        initialization-mode: always
+        initialization-mode: never
+        # Below is to make sure we don't keep our db connection open after 20 seconds of inactivity
+        hikari:
+           connection:
+              timeout: 20000
+           maximum-pool-size: 5
     jpa:
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: none
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.H2Dialect
@@ -52,4 +69,4 @@ logging:
                 type:
                     descriptor:
                         sql:
-                            BasicBinder: 'TRACE '
+                            BasicBinder: 'TRACE'

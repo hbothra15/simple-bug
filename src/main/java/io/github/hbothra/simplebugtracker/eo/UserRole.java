@@ -1,11 +1,8 @@
 package io.github.hbothra.simplebugtracker.eo;
 
-import java.util.Set;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -20,6 +17,4 @@ import lombok.ToString;
 @AttributeOverride(name="type", column = @Column(name="USER_TYPE", nullable = false))
 public class UserRole extends BaseType {
 
-	@ManyToMany(mappedBy = "roles")
-	Set<User> users;
 }

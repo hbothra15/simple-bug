@@ -1,0 +1,3 @@
+[submodule "user-auth"]
+	path = user-auth
+	url = https://github.com/hbothra15/user-auth.git

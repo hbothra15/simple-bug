@@ -9,7 +9,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.github.hbothra")
+@ComponentScan(basePackages = {"com.github.hbothra.user", "io.github.hbothra.simplebugtracker"})
 public class SimpleBugTrackerApplication {
 
 	public static void main(String[] args) {

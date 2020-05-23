@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>io.github.hbothra</groupId>
 	<artifactId>simple-bug-tracker</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>2020.05</version>
 	<name>Simple Bug Tracker</name>
 	<description>Demo project for Spring Boot</description>
 
@@ -19,10 +19,21 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8
 		</project.reporting.outputEncoding>
-		<maven.compiler.release>11</maven.compiler.release>
+		<user.version>2020.05</user.version>
 	</properties>
 
 	<dependencies>
+		<!-- User Auth -->
+		<dependency>
+			<groupId>com.github.hbothra</groupId>
+			<artifactId>user-auth-jwt</artifactId>
+			<version>${user.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hbothra</groupId>
+			<artifactId>user-sec-config</artifactId>
+			<version>${user.version}</version>
+		</dependency>
 		<!-- For JPA Support and excluding Embeded-Tomcat server to use Jetty instead -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -50,6 +61,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jetty</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		<!-- For Spring security -->
 		<dependency>
@@ -85,6 +100,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<!-- For H2 In-Memory DB which shall be used for Junit -->
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -102,13 +122,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version><!--$NO-MVN-MAN-VER$-->
+				<version>3.8.1</version><!--$NO-MVN-MAN-VER$ -->
 				<configuration>
-					<release>11</release>
-					<!-- mandatory to compile project with maven 3.3.9, might be removed 
-						with latest version -->
-					<useIncrementalCompilation>false</useIncrementalCompilation>
-					<optimize>true</optimize>
+					<source>11</source>
+					<target>11</target>
 				</configuration>
 			</plugin>
 		</plugins>
