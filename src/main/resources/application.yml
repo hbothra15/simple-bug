@@ -10,6 +10,11 @@ spring:
         username: root
         # This will make Sure for Dev enviornment data.sql never runs
         initialization-mode: never
+        # Below is to make sure we don't keep our db connection open after 60 seconds of inactivity
+        hikari:
+           connection:
+              timeout: 60000
+           maximum-pool-size: 10
     jpa:
         hibernate:
             ddl-auto: update
@@ -47,11 +52,11 @@ spring:
         url: jdbc:h2:mem:testdb
         username: sa
         initialization-mode: never
-        # Below is to make sure we don't keep our db connection open after 20 seconds of inactivity
+        # Below is to make sure we don't keep our db connection open after 1 seconds of inactivity
         hikari:
            connection:
-              timeout: 20000
-           maximum-pool-size: 5
+              timeout: 1000
+           maximum-pool-size: 2
     jpa:
         hibernate:
             ddl-auto: none
