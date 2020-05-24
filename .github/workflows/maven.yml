@@ -30,6 +30,6 @@ jobs:
         submodules: 'true'
        
     - name: Build User with Maven
-      run: mvn clean compile test -f user-auth/pom.xml
+      run: mvn clean install -f user-auth/pom.xml
     - name: Build Main with Maven
       run: mvn clean compile test
