@@ -37,9 +37,5 @@ public class UserController {
 	public List<SimpleUser> getAllUser() {
 		return userRepo.findAll(Sort.by(Direction.ASC, "name"));
 	}
-	
-	@GetMapping("/current")
-	public void currentUser(@AuthenticationPrincipal SimpleUser user) {
-		System.err.println(user.getAuthorities());
-	}
+
 }

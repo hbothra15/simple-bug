@@ -46,6 +46,9 @@ mvn clean verify -P sonar
 - https://vladmihalcea.com/the-best-way-to-map-the-discriminatorcolumn-with-jpa-and-hibernate/ For using lookup table
 
 ## Release Note
+* 2020.05.27
+	- Use of MapStruct for mapping RO to EO
+	- Use JPA inheritance to reduce no. of Database tables
 * 2020.05
     - Change in the version pattern, will use YYYY.MM and adding .DD for patch release
     - Leverage the new Secured annotation

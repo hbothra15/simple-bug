@@ -16,7 +16,7 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlConfig.TransactionMode;
 import org.springframework.test.context.jdbc.SqlGroup;
 
-import io.github.hbothra.simplebugtracker.eo.Bugs;
+import io.github.hbothra.simplebugtracker.ro.BugRo;
 
 @SpringBootTest
 @AutoConfigureDataJpa
@@ -40,9 +40,9 @@ public class BugDetailsTest {
 	})
 	// @formatter:on
 	public void testFetchAllbugsBasedOnUserId() {
-		List<Bugs> adminBugs = details.fetchAllBugsBasedOnUserId(1);
-		List<Bugs> supportBugs = details.fetchAllBugsBasedOnUserId(2);
-		List<Bugs> vendorBugs = details.fetchAllBugsBasedOnUserId(3);
+		List<BugRo> adminBugs = details.fetchAllBugsBasedOnUserId(1);
+		List<BugRo> supportBugs = details.fetchAllBugsBasedOnUserId(2);
+		List<BugRo> vendorBugs = details.fetchAllBugsBasedOnUserId(3);
 		
 		assertEquals(3, adminBugs.size());
 		assertEquals(2, supportBugs.size());
