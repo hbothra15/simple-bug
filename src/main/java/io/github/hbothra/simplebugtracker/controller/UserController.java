@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.hbothra.simplebugtracker.eo.User;
+import io.github.hbothra.simplebugtracker.eo.SimpleUser;
 import io.github.hbothra.simplebugtracker.repo.UserRepo;
 
 @RestController
@@ -26,7 +26,7 @@ public class UserController {
 	private UserRepo userRepo;
 
 	@PostMapping
-	public User addUser(@RequestBody User user, @AuthenticationPrincipal User loggedInUser) {
+	public SimpleUser addUser(@RequestBody SimpleUser user, @AuthenticationPrincipal SimpleUser loggedInUser) {
 		Assert.isTrue(user.getPassword().equals(user.getPasswordConfirm()), "Password and Password Confirm is not same");
 		user.setCreatedBy(loggedInUser);
 		user.setModifiedBy(loggedInUser);
@@ -34,12 +34,12 @@ public class UserController {
 	}
 
 	@GetMapping
-	public List<User> getAllUser() {
+	public List<SimpleUser> getAllUser() {
 		return userRepo.findAll(Sort.by(Direction.ASC, "name"));
 	}
 	
 	@GetMapping("/current")
-	public void currentUser(@AuthenticationPrincipal User user) {
+	public void currentUser(@AuthenticationPrincipal SimpleUser user) {
 		System.err.println(user.getAuthorities());
 	}
 }

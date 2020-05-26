@@ -24,8 +24,8 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlConfig.TransactionMode;
 import org.springframework.test.context.jdbc.SqlGroup;
 
-import io.github.hbothra.simplebugtracker.eo.User;
-import io.github.hbothra.simplebugtracker.eo.UserRole;
+import io.github.hbothra.simplebugtracker.eo.SimpleUser;
+import io.github.hbothra.simplebugtracker.eo.UserType;
 
 @SpringBootTest
 @AutoConfigureDataJpa
@@ -64,7 +64,7 @@ public class UserRepoTest {
 	// @formatter:on
 	public void testFindByUserName() {
 		com.github.hbothra.user.entity.User user = repo.findByUserName("admin@simpleBug.com").get();
-		assertTrue(user instanceof User, "User should be instance of EO User");
+		assertTrue(user instanceof SimpleUser, "User should be instance of EO User");
 		assertTrue(user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
 	}
 
@@ -79,10 +79,10 @@ public class UserRepoTest {
 	})
 	// @formatter:on
 	public void testFindByEmail() {
-		User user = repo.findByEmail("admin@simpleBug.com").get();
+		SimpleUser user = repo.findByEmail("admin@simpleBug.com").get();
 		assertEquals(user.getName(), "ADMIN");
-		List<UserRole> userRole = new ArrayList<UserRole>(user.getRoles());
-		assertEquals(userRole.get(0).getType(), "ADMIN");
+		List<UserType> userRole = new ArrayList<UserType>(user.getRoles());
+		assertEquals(userRole.get(0).getLookupValue(), "ADMIN");
 	}
 
 	@Test
@@ -96,7 +96,7 @@ public class UserRepoTest {
 	})
 	// @formatter:on
 	public void testFindByContact() {
-		User user = repo.findByContact("7700000000").get();
+		SimpleUser user = repo.findByContact("7700000000").get();
 		assertEquals(user.getName(), "ADMIN");
 	}
 }

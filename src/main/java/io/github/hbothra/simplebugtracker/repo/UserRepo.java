@@ -9,15 +9,15 @@ import org.springframework.stereotype.Repository;
 
 import com.github.hbothra.user.crud.UserCrudService;
 
-import io.github.hbothra.simplebugtracker.eo.User;
+import io.github.hbothra.simplebugtracker.eo.SimpleUser;
 
 @Repository
-public interface UserRepo extends JpaRepository<User, Long>, UserCrudService {
+public interface UserRepo extends JpaRepository<SimpleUser, Long>, UserCrudService {
 
 	@EntityGraph(value = "User.role", type = EntityGraphType.LOAD)
-	Optional<User> findByEmail(String emailId);
+	Optional<SimpleUser> findByEmail(String emailId);
 	
-	Optional<User> findByContact(String contact);
+	Optional<SimpleUser> findByContact(String contact);
 	
 	@Override
 	@EntityGraph(value = "User.role", type = EntityGraphType.LOAD)

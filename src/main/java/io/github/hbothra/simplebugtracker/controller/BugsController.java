@@ -1,7 +1,6 @@
 package io.github.hbothra.simplebugtracker.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.websocket.server.PathParam;
 
@@ -14,8 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.hbothra.simplebugtracker.eo.Bugs;
 import io.github.hbothra.simplebugtracker.eo.BugsComments;
-import io.github.hbothra.simplebugtracker.eo.User;
-import io.github.hbothra.simplebugtracker.repo.BugCommentsRepo;
+import io.github.hbothra.simplebugtracker.eo.SimpleUser;
 import io.github.hbothra.simplebugtracker.service.BugDetails;
 
 @RestController
@@ -25,9 +23,6 @@ public class BugsController {
 	@Autowired
 	private BugDetails bugService;
 
-	@Autowired
-	private BugCommentsRepo bugComments;
-	
 	@GetMapping
 	@PreAuthorize("hasRole('ADMIN')")
 	public List<Bugs> getAllBugs() {
@@ -36,13 +31,13 @@ public class BugsController {
 	
 	@GetMapping("/user")
 	@PreAuthorize("hasRole('VENDOR') or hasRole('SUPPORT')")
-	public List<Bugs> fetchAllBugsBasedOnUserId(@AuthenticationPrincipal User user) {
-		return bugService.fetcchAllBugsBasedOnUserId(user.getUserId());
+	public List<Bugs> fetchAllBugsBasedOnUserId(@AuthenticationPrincipal SimpleUser user) {
+		return bugService.fetchAllBugsBasedOnUserId(user.getUserId());
 	}
 	
 	@GetMapping("/{id}/comments")
-	public Optional<BugsComments> getBugComments(@PathParam("id") long id) {
-		return bugComments.findById(id);
+	public List<BugsComments> getBugComments(@PathParam("id") long id) {
+		return bugService.getAllComments(id);
 	}
 	
 }

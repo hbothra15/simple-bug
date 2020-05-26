@@ -16,7 +16,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
-import javax.persistence.NamedEntityGraphs;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -33,11 +32,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name="USER")
-@NamedEntityGraphs({
-	@NamedEntityGraph(name="User.role", attributeNodes = @NamedAttributeNode("roles"))
-})
+@NamedEntityGraph(name="User.role", attributeNodes = @NamedAttributeNode("roles"))
 @JsonAutoDetect
-public class User extends AuditTrail implements com.github.hbothra.user.entity.User {
+public class SimpleUser extends AuditTrail implements com.github.hbothra.user.entity.User {
 
 	private static final long serialVersionUID = 3047826211552173830L;
 
@@ -74,16 +71,16 @@ public class User extends AuditTrail implements com.github.hbothra.user.entity.U
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name="USER_ROLE", joinColumns = @JoinColumn(name="USER_ID"),
 		inverseJoinColumns = @JoinColumn(name="role_id"))
-    private Set<UserRole> roles = new HashSet<>();
+    private Set<UserType> roles = new HashSet<>();
 
-	public void addRole (UserRole role) {
+	public void addRole (UserType role) {
 		roles.add(role);
 	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles.parallelStream()
-				.map(role -> new SimpleGrantedAuthority("ROLE_" + role.getType().toUpperCase()))
+				.map(role -> new SimpleGrantedAuthority("ROLE_" + role.getLookupValue().toUpperCase()))
 				.collect(Collectors.toSet());
 	}
 

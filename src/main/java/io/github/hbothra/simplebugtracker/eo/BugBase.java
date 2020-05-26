@@ -35,7 +35,7 @@ public class BugBase extends AuditTrail {
 	
 	@JoinColumn(name="ASSIGNED_TO",insertable = false, updatable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
-	private User assignedTo;
+	private SimpleUser assignedTo;
 	
 	@Column(name = "ASSIGNED_TO")
 	private Long assignedToId;

@@ -43,6 +43,7 @@ mvn clean verify -P sonar
 - https://github.com/SonarSource/docker-sonarqube/blob/master/example-compose-files/sq-with-postgres/docker-compose.yml To Setup sonar for local machine to have better code quality
 - https://devopsheaven.com/postgresql/pg_dump/databases/docker/backup/2017/09/10/backup-postgresql-database-using-docker.html To have sonar report backup which can be used whenever we bring back the Sonar compose up and run maven report
 - https://devopsheaven.com/postgresql/psql/databases/docker/backup/restore/2017/09/10/restore-postgresql-database-using-docker.html To restore sonar report post bringing docker compose up and use the same data
+- https://vladmihalcea.com/the-best-way-to-map-the-discriminatorcolumn-with-jpa-and-hibernate/ For using lookup table
 
 ## Release Note
 * 2020.05

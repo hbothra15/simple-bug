@@ -18,8 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import io.github.hbothra.simplebugtracker.eo.User;
-import io.github.hbothra.simplebugtracker.eo.UserRole;
+import io.github.hbothra.simplebugtracker.eo.SimpleUser;
+import io.github.hbothra.simplebugtracker.eo.UserType;
 import io.github.hbothra.simplebugtracker.repo.UserRepo;
 
 @SpringBootTest
@@ -57,11 +57,11 @@ public class UserControllerTest {
 			+ "	}]"
 			+ "}";
 	// @formatter:on
-	public User buildUser(String role) {
-		User user = new User();
-		UserRole usrRole = new UserRole();
-		usrRole.setId(1L);
-		usrRole.setType(role);
+	public SimpleUser buildUser(String role) {
+		SimpleUser user = new SimpleUser();
+		UserType usrRole = new UserType();
+		usrRole.setLookupCode(1L);
+		usrRole.setLookupValue(role);
 		user.setEmail(USER_NAME);
 		user.setPassword(USER_PASSWRD);
 		user.setUserId(1L);
@@ -85,7 +85,7 @@ public class UserControllerTest {
 		String url = "/api/users";
 		String authToken = getToken(ROLE_ADMIN);
 
-		Mockito.when(userRepo.save(Mockito.any(User.class))).thenReturn(buildUser(ROLE_ADMIN));
+		Mockito.when(userRepo.save(Mockito.any(SimpleUser.class))).thenReturn(buildUser(ROLE_ADMIN));
 
 		mvc.perform(MockMvcRequestBuilders.post(url).header("Authorization", "Bearer " + authToken)
 				.contentType(MediaType.APPLICATION_JSON).content(CREATE_USER_JSON)).andExpect(status().isOk());
@@ -95,7 +95,7 @@ public class UserControllerTest {
 	}
 
 	private String getToken(String role) throws Exception {
-		User user = buildUser(role);
+		SimpleUser user = buildUser(role);
 		Mockito.when(userRepo.findAll(Mockito.any(Sort.class))).thenReturn(Arrays.asList(user));
 		Mockito.when(userRepo.findByUserName(USER_NAME)).thenReturn(Optional.of(user));
 		MvcResult result = mvc
