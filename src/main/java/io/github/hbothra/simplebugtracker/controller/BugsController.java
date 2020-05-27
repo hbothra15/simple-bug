@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.hbothra.simplebugtracker.eo.SimpleUser;
 import io.github.hbothra.simplebugtracker.ro.BugCommentsRo;
 import io.github.hbothra.simplebugtracker.ro.BugRo;
-import io.github.hbothra.simplebugtracker.service.BugDetails;
+import io.github.hbothra.simplebugtracker.ro.SimpleUserRo;
+import io.github.hbothra.simplebugtracker.service.BugService;
 
 @RestController
 @RequestMapping("/api/bugs")
 public class BugsController {
 	
 	@Autowired
-	private BugDetails bugService;
+	private BugService bugService;
 
 	@GetMapping
 	@PreAuthorize("hasRole('ADMIN')")
@@ -31,7 +31,7 @@ public class BugsController {
 	
 	@GetMapping("/user")
 	@PreAuthorize("hasRole('VENDOR') or hasRole('SUPPORT')")
-	public List<BugRo> fetchAllBugsBasedOnUserId(@AuthenticationPrincipal SimpleUser user) {
+	public List<BugRo> fetchAllBugsBasedOnUserId(@AuthenticationPrincipal SimpleUserRo user) {
 		return bugService.fetchAllBugsBasedOnUserId(user.getUserId());
 	}
 	

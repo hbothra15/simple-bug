@@ -10,7 +10,14 @@ import lombok.EqualsAndHashCode;
 public class SimpleUserRo extends AuditTrailRo {
 
 	private Long userId;
-	private String name, addressLine1, addressLine2, addressLine3, contact, email, password, passwordConfirm;
+	private String name;
+	private String addressLine1;
+	private String addressLine2;
+	private String addressLine3;
+	private String contact;
+	private String email;
+	private String password;
+	private String passwordConfirm;
 	private Set<UsersRoleRo> roles;
 	
 }

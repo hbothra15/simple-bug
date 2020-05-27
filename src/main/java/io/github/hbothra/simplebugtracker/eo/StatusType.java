@@ -7,5 +7,4 @@ import javax.persistence.Entity;
 @DiscriminatorValue(StatusType.DISCRIMINATOR_VALUE)
 public class StatusType extends Lookup {
 	public static final String DISCRIMINATOR_VALUE="STATUS_TYPE";
-
 }

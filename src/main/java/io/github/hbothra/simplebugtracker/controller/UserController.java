@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.github.hbothra.simplebugtracker.eo.SimpleUser;
-import io.github.hbothra.simplebugtracker.repo.UserRepo;
+import io.github.hbothra.simplebugtracker.ro.SimpleUserRo;
+import io.github.hbothra.simplebugtracker.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")
@@ -23,19 +23,19 @@ import io.github.hbothra.simplebugtracker.repo.UserRepo;
 public class UserController {
 
 	@Autowired
-	private UserRepo userRepo;
+	private UserService userService;
 
 	@PostMapping
-	public SimpleUser addUser(@RequestBody SimpleUser user, @AuthenticationPrincipal SimpleUser loggedInUser) {
+	public SimpleUserRo addUser(@RequestBody SimpleUserRo user, @AuthenticationPrincipal SimpleUserRo loggedInUser) {
 		Assert.isTrue(user.getPassword().equals(user.getPasswordConfirm()), "Password and Password Confirm is not same");
 		user.setCreatedBy(loggedInUser);
 		user.setModifiedBy(loggedInUser);
-		return userRepo.save(user);
+		return userService.addUser(user);
 	}
 
 	@GetMapping
-	public List<SimpleUser> getAllUser() {
-		return userRepo.findAll(Sort.by(Direction.ASC, "name"));
+	public List<SimpleUserRo> getAllUser() {
+		return userService.findAllUsersSorted(Sort.by(Direction.ASC, "name"));
 	}
 
 }

@@ -5,7 +5,9 @@ import lombok.Data;
 @Data
 public class AuditTrailRo {
 
-	private SimpleUserRo modifiedBy, createdBy;
-	private Long modifiedById,createdById;
+	private SimpleUserRo modifiedBy;
+	private SimpleUserRo createdBy;
+	private Long modifiedById;
+	private Long createdById;
 	
 }

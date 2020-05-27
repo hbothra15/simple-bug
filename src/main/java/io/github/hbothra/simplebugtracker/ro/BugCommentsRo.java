@@ -13,6 +13,7 @@ public class BugCommentsRo extends AuditTrailRo {
 	private BugRo bug;
 	private Long bugId;
 	private String comments;
-	private LocalDateTime modifiedOn,createdOn;
+	private LocalDateTime modifiedOn;
+	private LocalDateTime createdOn;
 	
 }

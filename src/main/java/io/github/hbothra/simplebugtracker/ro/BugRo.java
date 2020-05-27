@@ -10,11 +10,13 @@ import lombok.EqualsAndHashCode;
 public class BugRo extends AuditTrailRo {
 
 	private Long bugId;
-	private String title, descr;
+	private String title;
+	private String descr;
 	private BugTypeRo bugType;
 	private StatusRo bugStatus ;
 	private SimpleUserRo assignedTo;
 	private Long assignedToId;
-	private LocalDateTime modifiedOn,createdOn;
+	private LocalDateTime modifiedOn;
+	private LocalDateTime createdOn;
 
 }

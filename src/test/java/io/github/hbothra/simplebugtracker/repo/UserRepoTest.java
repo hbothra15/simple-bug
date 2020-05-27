@@ -30,9 +30,7 @@ import io.github.hbothra.simplebugtracker.eo.UserType;
 @SpringBootTest
 @AutoConfigureDataJpa
 @ActiveProfiles("test")
-@TestPropertySource(properties = {
-		"spring.jpa.hibernate.ddl-auto=create"
-})
+@TestPropertySource(properties = { "spring.jpa.hibernate.ddl-auto=create" })
 public class UserRepoTest {
 
 	@Autowired
@@ -80,9 +78,9 @@ public class UserRepoTest {
 	// @formatter:on
 	public void testFindByEmail() {
 		SimpleUser user = repo.findByEmail("admin@simpleBug.com").get();
-		assertEquals(user.getName(), "ADMIN");
+		assertEquals("ADMIN", user.getName());
 		List<UserType> userRole = new ArrayList<UserType>(user.getRoles());
-		assertEquals(userRole.get(0).getLookupValue(), "ADMIN");
+		assertEquals("ADMIN", userRole.get(0).getLookupValue());
 	}
 
 	@Test
@@ -97,6 +95,6 @@ public class UserRepoTest {
 	// @formatter:on
 	public void testFindByContact() {
 		SimpleUser user = repo.findByContact("7700000000").get();
-		assertEquals(user.getName(), "ADMIN");
+		assertEquals("ADMIN", user.getName());
 	}
 }

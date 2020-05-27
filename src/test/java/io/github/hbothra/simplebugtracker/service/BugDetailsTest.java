@@ -27,7 +27,7 @@ import io.github.hbothra.simplebugtracker.ro.BugRo;
 public class BugDetailsTest {
 
 	@Autowired
-	private BugDetails details;
+	private BugService details;
 	
 	@Test
 	// @formatter:off
