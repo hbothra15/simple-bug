@@ -15,8 +15,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import io.github.hbothra.simplebugtracker.eo.listener.BugsEOListener;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,7 +24,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "BUGS")
 @EntityListeners(BugsEOListener.class)
-@JsonIgnoreProperties(value = { "createdOn", "createdBy" }, allowGetters = true)
 public class Bugs extends BugBase {
 
 	@Id

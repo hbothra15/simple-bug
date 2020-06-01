@@ -1,3 +1,3 @@
 delete from USER_ROLE;
-delete from USER_TYPE;
+delete from SIMPLE_LKP;
 delete from USER;

@@ -32,4 +32,4 @@ jobs:
     - name: Build User with Maven
       run: mvn clean install -f user-auth/pom.xml
     - name: Build Main with Maven
-      run: mvn clean install
+      run: mvn clean compile test

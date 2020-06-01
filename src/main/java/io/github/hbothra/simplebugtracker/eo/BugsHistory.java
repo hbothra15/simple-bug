@@ -1,6 +1,5 @@
 package io.github.hbothra.simplebugtracker.eo;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +16,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name="H$BUGS")
-@AttributeOverride(name = "ID", column = @Column(name="BUG_ID", nullable = false, updatable = false))
 public class BugsHistory extends BugBase {
 
 	@Id

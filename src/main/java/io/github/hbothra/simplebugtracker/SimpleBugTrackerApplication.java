@@ -13,7 +13,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 public class SimpleBugTrackerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SimpleBugTrackerApplication.class, args);
+		SpringApplication.run(SimpleBugTrackerApplication.class);
 	}
 
 	@Bean

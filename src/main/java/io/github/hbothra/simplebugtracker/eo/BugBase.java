@@ -7,14 +7,11 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-@JsonIgnoreProperties(value = {"modifiedOn"}, allowGetters = true)
 @MappedSuperclass
 public class BugBase extends AuditTrail {
 		
@@ -35,7 +32,7 @@ public class BugBase extends AuditTrail {
 	
 	@JoinColumn(name="ASSIGNED_TO",insertable = false, updatable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
-	private User assignedTo;
+	private SimpleUser assignedTo;
 	
 	@Column(name = "ASSIGNED_TO")
 	private Long assignedToId;

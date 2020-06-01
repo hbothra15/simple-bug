@@ -18,8 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
-import io.github.hbothra.simplebugtracker.eo.User;
-import io.github.hbothra.simplebugtracker.eo.UserRole;
+import io.github.hbothra.simplebugtracker.eo.SimpleUser;
+import io.github.hbothra.simplebugtracker.eo.UserType;
 import io.github.hbothra.simplebugtracker.repo.UserRepo;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -37,10 +37,10 @@ public class UserLoginControllerTest {
 	
 	@BeforeEach
 	public void setup () {
-		User user = new User();
-		UserRole role = new UserRole();
-		role.setId(1L);
-		role.setType("ADMIN");
+		SimpleUser user = new SimpleUser();
+		UserType role = new UserType();
+		role.setLookupCode(1L);
+		role.setLookupValue("ADMIN");
 		user.setEmail("admin@simpleBug.com");
 		user.setPassword("LetMeIn");
 		user.setUserId(1L);

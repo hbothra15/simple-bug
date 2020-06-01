@@ -10,15 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import io.github.hbothra.simplebugtracker.eo.listener.AuditTrailListener;
 import lombok.Data;
 
 @MappedSuperclass
 @EntityListeners(AuditTrailListener.class)
 @Data
-@JsonIgnoreProperties(value = { "modifiedOn", "modifiedBy" }, allowGetters = true)
 public class AuditTrail {
 
 	@Version
@@ -27,7 +24,7 @@ public class AuditTrail {
 	
 	@JoinColumn(name="MODIFIED_BY",insertable = false, updatable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
-	private User modifiedBy;
+	private SimpleUser modifiedBy;
 	
 	@Column(name = "MODIFIED_BY")
 	private Long modifiedById;
@@ -37,7 +34,7 @@ public class AuditTrail {
 	
 	@JoinColumn(name="CREATED_BY", updatable = false, insertable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
-	private User createdBy;
+	private SimpleUser createdBy;
 	
 	@Column(name = "CREATED_BY", updatable = false)
 	private Long createdById;
