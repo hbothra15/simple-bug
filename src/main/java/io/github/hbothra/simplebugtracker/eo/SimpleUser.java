@@ -23,6 +23,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.github.hbothra.user.entity.User;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,7 +33,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name="USER")
 @NamedEntityGraph(name="User.role", attributeNodes = @NamedAttributeNode("roles"))
-public class SimpleUser extends AuditTrail implements com.github.hbothra.user.entity.User {
+public class SimpleUser extends AuditTrail implements User {
 
 	private static final long serialVersionUID = 3047826211552173830L;
 

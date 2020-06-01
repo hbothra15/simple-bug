@@ -31,8 +31,9 @@ cat sonar-backup\backup.sql | docker exec -i docker_db_1 /bin/bash -c "export PG
 
 ```bash
 # To run Sonar scan make sure to get update from backup.sql and generate new one post scan 
-mvn clean verify -P sonar
+mvn clean install sonar:sonar
 ```
+
 ## References
 - https://gregorbowie.wordpress.com/category/pet-projects/simple-bug-tracker/ Which inspired me to build this app
 - https://octoperf.com/blog/2018/03/08/securing-rest-api-spring-security/ For Implementing token based Spring security
@@ -46,6 +47,9 @@ mvn clean verify -P sonar
 - https://vladmihalcea.com/the-best-way-to-map-the-discriminatorcolumn-with-jpa-and-hibernate/ For using lookup table
 
 ## Release Note
+* 2020.06.01
+	- Updating JUnit
+	- Earlier Jococo report was not getting scanned by Sonar, so updating the pom to achieve the same.
 * 2020.05.27
 	- Use of MapStruct for mapping RO to EO
 	- Use JPA inheritance to reduce no. of Database tables

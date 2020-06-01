@@ -2,18 +2,16 @@ package io.github.hbothra.simplebugtracker.controller;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.hbothra.simplebugtracker.ro.BugCommentsRo;
 import io.github.hbothra.simplebugtracker.ro.BugRo;
-import io.github.hbothra.simplebugtracker.ro.SimpleUserRo;
 import io.github.hbothra.simplebugtracker.service.BugService;
 
 @RestController
@@ -31,12 +29,13 @@ public class BugsController {
 	
 	@GetMapping("/user")
 	@PreAuthorize("hasRole('VENDOR') or hasRole('SUPPORT')")
-	public List<BugRo> fetchAllBugsBasedOnUserId(@AuthenticationPrincipal SimpleUserRo user) {
-		return bugService.fetchAllBugsBasedOnUserId(user.getUserId());
+	public List<BugRo> fetchAllBugsBasedOnUserId(@AuthenticationPrincipal(expression = "userId") Long userId) {
+		return bugService.fetchAllBugsBasedOnUserId(userId);
 	}
 	
 	@GetMapping("/{id}/comments")
-	public List<BugCommentsRo> getBugComments(@PathParam("id") long id) {
+	@PreAuthorize("hasRole('VENDOR') or hasRole('SUPPORT') or hasRole('ADMIN')")
+	public List<BugCommentsRo> getBugComments(@PathVariable("id") long id) {
 		return bugService.getAllComments(id);
 	}
 	
