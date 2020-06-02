@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -17,6 +18,9 @@ import org.springframework.test.context.jdbc.SqlGroup;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@TestPropertySource(properties = {
+		"spring.jpa.hibernate.ddl-auto=create"
+})
 public class UserLoginImplTest {
 
 	@Autowired
