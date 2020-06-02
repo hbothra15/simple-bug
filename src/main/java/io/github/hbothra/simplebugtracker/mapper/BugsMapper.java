@@ -10,9 +10,6 @@ import io.github.hbothra.simplebugtracker.ro.BugRo;
 public interface BugsMapper extends BaseMapper<Bugs, BugRo> {
 
 	@Override
-	Bugs destinationToSource(BugRo destination);
-	
-	@Override
 	// Below are marked as Ignore to avoid HibernateLazy Loading issue
 	@Mapping(source = "bugType", target = "bugType", ignore = true)
 	@Mapping(source = "bugStatus", target = "bugStatus", ignore = true)

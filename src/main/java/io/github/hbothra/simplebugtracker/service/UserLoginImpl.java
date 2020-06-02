@@ -8,10 +8,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 import io.github.hbothra.simplebugtracker.eo.SimpleUser;
 import io.github.hbothra.simplebugtracker.repo.UserRepo;
 
+@Component
 public class UserLoginImpl implements UserDetailsService {
 
 	@Autowired
@@ -27,7 +29,7 @@ public class UserLoginImpl implements UserDetailsService {
 						.orElseThrow(() -> new UsernameNotFoundException(String.format(userNotFound, username))))
 				.get();
 		
-		return new User(user.getName(), user.getPassword(), user.getAuthorities());
+		return new User(user.getEmail(), user.getPassword(), user.getAuthorities());
 	}
 
 	
