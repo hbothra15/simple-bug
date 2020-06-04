@@ -6,7 +6,7 @@ import org.mapstruct.Mapping;
 import io.github.hbothra.simplebugtracker.eo.AuditTrail;
 import io.github.hbothra.simplebugtracker.ro.AuditTrailRo;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { SimpleUserMapper.class })
 public interface AuditTrailMapper extends BaseMapper<AuditTrailRo, AuditTrail> {
 
 	@Override

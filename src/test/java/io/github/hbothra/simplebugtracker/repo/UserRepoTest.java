@@ -30,7 +30,7 @@ import io.github.hbothra.simplebugtracker.eo.UserType;
 @SpringBootTest
 @AutoConfigureDataJpa
 @ActiveProfiles("test")
-@TestPropertySource(properties = { "spring.jpa.hibernate.ddl-auto=create" })
+@TestPropertySource(properties = { "spring.jpa.hibernate.ddl-auto=create-drop" })
 public class UserRepoTest {
 
 	@Autowired

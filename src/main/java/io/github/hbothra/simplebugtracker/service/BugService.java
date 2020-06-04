@@ -3,9 +3,12 @@ package io.github.hbothra.simplebugtracker.service;
 import java.util.List;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import io.github.hbothra.simplebugtracker.eo.Bugs;
 import io.github.hbothra.simplebugtracker.mapper.BugsMapper;
 import io.github.hbothra.simplebugtracker.mapper.CommentsMapper;
 import io.github.hbothra.simplebugtracker.repo.BugCommentsRepo;
@@ -15,6 +18,7 @@ import io.github.hbothra.simplebugtracker.ro.BugCommentsRo;
 import io.github.hbothra.simplebugtracker.ro.BugRo;
 
 @Component
+@Transactional
 public class BugService {
 
 	@Autowired
@@ -44,5 +48,11 @@ public class BugService {
 	
 	public List<BugCommentsRo> getAllComments(Long bugId) {
 		return commentMapper.sourceToDestination(commRepo.findAllByBugId(bugId));
+	}
+
+	public BugRo addBug(BugRo bug) {
+		Bugs bugEo = bugMapper.destinationToSource(bug);
+		bugEo = bugRepo.save(bugEo);
+		return bugMapper.sourceToDestination(bugEo);
 	}
 }

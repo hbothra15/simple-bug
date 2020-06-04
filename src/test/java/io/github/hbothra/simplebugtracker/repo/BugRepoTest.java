@@ -17,7 +17,7 @@ import org.springframework.test.context.TestPropertySource;
 @AutoConfigureDataJpa
 @ActiveProfiles("test")
 @TestPropertySource(properties = {
-		"spring.jpa.hibernate.ddl-auto=create"
+		"spring.jpa.hibernate.ddl-auto=create-drop"
 })
 public class BugRepoTest{
 	

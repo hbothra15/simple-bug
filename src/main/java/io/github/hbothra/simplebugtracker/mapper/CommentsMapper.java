@@ -6,7 +6,7 @@ import org.mapstruct.Mapping;
 import io.github.hbothra.simplebugtracker.eo.BugsComments;
 import io.github.hbothra.simplebugtracker.ro.BugCommentsRo;
 
-@Mapper(componentModel = "spring", uses = {BugTypeMapper.class, AuditTrailMapper.class})
+@Mapper(componentModel = "spring", uses = {BugsMapper.class, AuditTrailMapper.class})
 public interface CommentsMapper extends BaseMapper<BugsComments, BugCommentsRo> {
 
 	@Override

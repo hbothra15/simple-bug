@@ -23,7 +23,7 @@ import io.github.hbothra.simplebugtracker.ro.BugRo;
 @AutoConfigureDataJpa
 @ActiveProfiles("test")
 @TestPropertySource(properties = {
-		"spring.jpa.hibernate.ddl-auto=create"
+		"spring.jpa.hibernate.ddl-auto=create-drop"
 })
 public class BugServiceTest {
 

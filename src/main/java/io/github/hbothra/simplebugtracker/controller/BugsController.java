@@ -7,6 +7,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +39,12 @@ public class BugsController {
 	@PreAuthorize("hasRole('VENDOR') or hasRole('SUPPORT') or hasRole('ADMIN')")
 	public List<BugCommentsRo> getBugComments(@PathVariable("id") long id) {
 		return bugService.getAllComments(id);
+	}
+	
+	@PostMapping
+	@PreAuthorize("hasRole('VENDOR') or hasRole('SUPPORT') or hasRole('ADMIN')")
+	public BugRo addBug(@RequestBody BugRo bug) {
+		return bugService.addBug(bug);
 	}
 	
 }
