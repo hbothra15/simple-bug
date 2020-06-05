@@ -16,10 +16,16 @@ public class BugsEOListener {
 		if(null == target.getProject()) {
 			target.setProject(0L);
 		}
+		if(null != target.getAssignedTo()) {
+			target.setAssignedToId(target.getAssignedTo().getUserId());
+		}
 	}
 	
 	@PreUpdate
 	private void beforeUpdate(Bugs target) {
+		if(null == target.getAssignedTo()) {
+			target.setAssignedToId(target.getAssignedTo().getUserId());
+		}
 		saveDataToHistory(target);
 	}
 

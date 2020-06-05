@@ -47,6 +47,8 @@ mvn clean install sonar:sonar
 - https://vladmihalcea.com/the-best-way-to-map-the-discriminatorcolumn-with-jpa-and-hibernate/ For using lookup table
 
 ## Release Note
+* 2020.06.02
+	- Updating JUnit and reached upto 17% coverage as per Sonar
 * 2020.06.01
 	- Updating JUnit
 	- Earlier Jococo report was not getting scanned by Sonar, so updating the pom to achieve the same.

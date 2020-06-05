@@ -15,8 +15,9 @@ public class BugRo extends AuditTrailRo {
 	private Long bugId;
 	private String title;
 	private String descr;
-	private BugTypeRo bugType;
-	private StatusRo bugStatus ;
+	private String bugType;
+	private String bugTypeId;
+	private String bugStatus ;
 	private SimpleUserRo assignedTo;
 	private Long assignedToId;
 	private LocalDateTime modifiedOn;
