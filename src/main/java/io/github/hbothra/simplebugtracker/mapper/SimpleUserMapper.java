@@ -17,10 +17,10 @@ public interface SimpleUserMapper extends BaseMapper<SimpleUser, SimpleUserRo> {
 	SimpleUserRo sourceToDestination(SimpleUser source);
 
 	@BeforeMapping
-	// To avoid Hibernate Lazy loading issue
+	// To avoid hibernate Lazy loading issue
 	default void checkUserIsLoaded(SimpleUser userEO) {
 		if(userEO instanceof HibernateProxy) {
-			userEO = null;
+			userEO = null; //NOSONAR as we want to reassign the argument
 		}
 	}
 }

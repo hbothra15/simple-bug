@@ -83,7 +83,7 @@ public class BugService {
 		if(bug.getAssignedTo() != null && bug.getAssignedTo().getUserId() != null) {
 			bugEo.setAssignedTo(userRepo.findById(bug.getAssignedTo().getUserId()).orElseGet(() -> null));
 		} else {
-			bug.setAssignedTo(null);
+			bugEo.setAssignedTo(null);
 		}
 		bugEo.setBugType(bugType.get());
 		bugEo.setBugStatus(statusType.get());

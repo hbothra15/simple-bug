@@ -21,22 +21,20 @@ import org.springframework.test.context.jdbc.SqlConfig.TransactionMode;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@TestPropertySource(properties = {
-		"spring.jpa.hibernate.ddl-auto=create"
-})
+@TestPropertySource(properties = { "spring.jpa.hibernate.ddl-auto=update" })
 @TestMethodOrder(OrderAnnotation.class)
 public class UserLoginImplTest {
 
 	@Autowired
 	private UserLoginImpl login;
-	
+
 	@Test
 	@Order(1)
-	@Sql(scripts = {"classpath:user-data.sql"})
+	@Sql(scripts = { "classpath:user-data.sql" })
 	public void dataSetUp() {
 		assertTrue(true, "To Make Sure We have all the required data in place");
 	}
-	
+
 	@Test
 	@Order(2)
 	public void testLoadUserByUsername() {
@@ -44,7 +42,7 @@ public class UserLoginImplTest {
 		assertEquals("admin@simpleBug.com", user.getUsername());
 		assertEquals("LetMeIn", user.getPassword());
 	}
-	
+
 	@Test
 	@Order(3)
 	public void testLoadUserByInvalidUsername() {
@@ -52,7 +50,7 @@ public class UserLoginImplTest {
 			login.loadUserByUsername("invalid@simpleBug.com");
 		});
 	}
-	
+
 	@Test
 	@Order(99)
 	@Sql(scripts = {

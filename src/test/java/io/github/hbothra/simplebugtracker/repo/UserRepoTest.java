@@ -32,7 +32,7 @@ import io.github.hbothra.simplebugtracker.eo.UserType;
 @SpringBootTest
 @AutoConfigureDataJpa
 @ActiveProfiles("test")
-@TestPropertySource(properties = { "spring.jpa.hibernate.ddl-auto=create" })
+@TestPropertySource(properties = { "spring.jpa.hibernate.ddl-auto=update" })
 @TestMethodOrder(OrderAnnotation.class)
 public class UserRepoTest {
 
@@ -78,7 +78,7 @@ public class UserRepoTest {
 		SimpleUser user = repo.findByContact("7700000000").get();
 		assertEquals("ADMIN", user.getName());
 	}
-	
+
 	@Test
 	@Order(99)
 	@Sql(scripts = {

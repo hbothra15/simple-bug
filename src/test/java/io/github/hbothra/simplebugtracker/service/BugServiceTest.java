@@ -2,6 +2,7 @@ package io.github.hbothra.simplebugtracker.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
@@ -29,7 +30,7 @@ import io.github.hbothra.simplebugtracker.ro.SimpleUserRo;
 @SpringBootTest
 @AutoConfigureDataJpa
 @ActiveProfiles("test")
-@TestPropertySource(properties = { "spring.jpa.hibernate.ddl-auto=create" })
+@TestPropertySource(properties = { "spring.jpa.hibernate.ddl-auto=update" })
 @TestMethodOrder(OrderAnnotation.class)
 public class BugServiceTest {
 
@@ -93,9 +94,72 @@ public class BugServiceTest {
 		assertEquals("Title", actual.getTitle());
 		assertEquals("Descr", actual.getDescr());
 		assertNotNull(actual.getBugId());
-		assertTrue(currentTime.truncatedTo(ChronoUnit.MINUTES).isEqual(actual.getCreatedOn().truncatedTo(ChronoUnit.MINUTES)));
-		assertTrue(currentTime.truncatedTo(ChronoUnit.MINUTES).isEqual(actual.getModifiedOn().truncatedTo(ChronoUnit.MINUTES)));
+		assertTrue(currentTime.truncatedTo(ChronoUnit.MINUTES)
+				.isEqual(actual.getCreatedOn().truncatedTo(ChronoUnit.MINUTES)));
+		assertTrue(currentTime.truncatedTo(ChronoUnit.MINUTES)
+				.isEqual(actual.getModifiedOn().truncatedTo(ChronoUnit.MINUTES)));
 		assertEquals("ADMIN", actual.getAssignedTo().getName());
+	}
+	
+	@Test
+	@Order(6)
+	public void testAddBugWithoutAssignedToUserDetails() {
+		LocalDateTime currentTime = LocalDateTime.now();
+
+		BugRo bugRo = new BugRo();
+		bugRo.setAssignedToId(1L);
+		bugRo.setModifiedById(1L);
+		bugRo.setCreatedById(1L);
+		bugRo.setBugStatus("TO_DO");
+		bugRo.setBugType("REPAIR");
+		bugRo.setDescr("Descr");
+		bugRo.setTitle("Title");
+		bugRo.setProject(1L);
+
+		BugRo actual = details.addBug(bugRo);
+
+		assertEquals("REPAIR", actual.getBugType());
+		assertEquals("TO_DO", actual.getBugStatus());
+		assertEquals("Title", actual.getTitle());
+		assertEquals("Descr", actual.getDescr());
+		assertNotNull(actual.getBugId());
+		assertTrue(currentTime.truncatedTo(ChronoUnit.MINUTES)
+				.isEqual(actual.getCreatedOn().truncatedTo(ChronoUnit.MINUTES)));
+		assertTrue(currentTime.truncatedTo(ChronoUnit.MINUTES)
+				.isEqual(actual.getModifiedOn().truncatedTo(ChronoUnit.MINUTES)));
+		assertNull(actual.getAssignedTo());
+		assertEquals(1L, actual.getProject());
+	}
+	
+	@Test
+	@Order(7)
+	public void testAddBugWithoutAssignedToUserDetailsId() {
+		LocalDateTime currentTime = LocalDateTime.now();
+		SimpleUserRo userRo = new SimpleUserRo();
+		
+		BugRo bugRo = new BugRo();
+		bugRo.setAssignedTo(userRo);
+		bugRo.setModifiedById(1L);
+		bugRo.setCreatedById(1L);
+		bugRo.setBugStatus("TO_DO");
+		bugRo.setBugType("REPAIR");
+		bugRo.setDescr("Descr");
+		bugRo.setTitle("Title");
+		bugRo.setProject(1L);
+
+		BugRo actual = details.addBug(bugRo);
+
+		assertEquals("REPAIR", actual.getBugType());
+		assertEquals("TO_DO", actual.getBugStatus());
+		assertEquals("Title", actual.getTitle());
+		assertEquals("Descr", actual.getDescr());
+		assertNotNull(actual.getBugId());
+		assertTrue(currentTime.truncatedTo(ChronoUnit.MINUTES)
+				.isEqual(actual.getCreatedOn().truncatedTo(ChronoUnit.MINUTES)));
+		assertTrue(currentTime.truncatedTo(ChronoUnit.MINUTES)
+				.isEqual(actual.getModifiedOn().truncatedTo(ChronoUnit.MINUTES)));
+		assertNull(actual.getAssignedTo());
+		assertEquals(1L, actual.getProject());
 	}
 
 	@Test

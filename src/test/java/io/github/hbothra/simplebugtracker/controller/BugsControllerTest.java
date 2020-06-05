@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -24,8 +25,10 @@ import io.github.hbothra.simplebugtracker.eo.Bugs;
 import io.github.hbothra.simplebugtracker.eo.BugsComments;
 import io.github.hbothra.simplebugtracker.eo.StatusType;
 import io.github.hbothra.simplebugtracker.repo.BugCommentsRepo;
+import io.github.hbothra.simplebugtracker.repo.BugTypeRepo;
 import io.github.hbothra.simplebugtracker.repo.BugsHistoryRepo;
 import io.github.hbothra.simplebugtracker.repo.BugsRepository;
+import io.github.hbothra.simplebugtracker.repo.StatusTypeRepo;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,6 +42,12 @@ public class BugsControllerTest extends BaseController {
 	private BugsHistoryRepo hisRepo;
 	
 	@MockBean
+	private BugTypeRepo bugTypeRepo;
+	
+	@MockBean
+	private StatusTypeRepo statusRepo;
+	
+	@MockBean
 	private BugCommentsRepo commRepo;
 
 	private List<Bugs> mockedBugs;
@@ -48,6 +57,16 @@ public class BugsControllerTest extends BaseController {
 	private static final String BUG_TITLE="Mocked Bug";
 	
 	private static final String BUG_DESCR="Mocked Bug Description";
+	
+	// @formatter:off
+	private static final String CREATE_BUG_JSON = "{"
+			+ "\"title\": \"Title\","
+			+ "\"descr\": \"A very long Description is expected over here\","
+			+ "\"assignedToId\" : 1,"
+			+ "\"bugStatus\" : \"TO_DO\","
+			+ "\"bugType\" : \"REPAIR\""
+			+ "}";
+	// @formatter:on
 	
 	private void mockBugList(int noOfBugs) {
 		assertTrue(noOfBugs>0, "Need to atleast 1 bug to add to list");
@@ -151,5 +170,21 @@ public class BugsControllerTest extends BaseController {
 			.andExpect(jsonPath("$[0].bug.bugId").value(1L))
 			.andExpect(jsonPath("$[0].comments").value("Comment"))
 			.andExpect(jsonPath("$[0].createdById").value(1L));
+	}
+	
+	@Test
+	public void testAddBug() throws Exception {
+		mockBugList(1);
+		when(bugRepo.save(any())).thenReturn(mockedBugs.get(0));
+		when(bugTypeRepo.findByLookupValue("REPAIR")).thenReturn(Optional.of(new BugType()));
+		when(statusRepo.findByLookupValue("TO_DO")).thenReturn(Optional.of(new StatusType()));
+		
+		String authToken = getToken(ROLE_VIEW);
+		mvc.perform(MockMvcRequestBuilders.post("/api/bugs").header("Authorization", "Bearer " + authToken).contentType(MediaType.APPLICATION_JSON).content(CREATE_BUG_JSON))
+			.andExpect(status().isForbidden());
+		
+		authToken = getToken(ROLE_VENDOR);
+		mvc.perform(MockMvcRequestBuilders.post("/api/bugs").header("Authorization", "Bearer " + authToken).contentType(MediaType.APPLICATION_JSON).content(CREATE_BUG_JSON))
+			.andExpect(status().isOk());
 	}
 }

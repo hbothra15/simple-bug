@@ -28,7 +28,7 @@ import io.github.hbothra.simplebugtracker.eo.BugType;
 @SpringBootTest
 @AutoConfigureDataJpa
 @ActiveProfiles("test")
-@TestPropertySource(properties = { "spring.jpa.hibernate.ddl-auto=create" })
+@TestPropertySource(properties = { "spring.jpa.hibernate.ddl-auto=update" })
 @TestMethodOrder(OrderAnnotation.class)
 public class BugTypeRepoTest {
 
@@ -68,7 +68,7 @@ public class BugTypeRepoTest {
 	}
 
 	@Test
-	@Order(4)
+	@Order(99)
 	@Sql(scripts = {
 			"classpath:data-cleanup.sql" }, executionPhase = ExecutionPhase.AFTER_TEST_METHOD, config = @SqlConfig(transactionMode = TransactionMode.ISOLATED))
 	public void dataCleanUp() {

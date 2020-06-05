@@ -35,7 +35,7 @@ public class Bugs extends BugBase {
 	@Column(name = "PROJECT", nullable = false, updatable = false)
 	private Long project;
 
-	@OneToMany(mappedBy = "bug", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "bug", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
 	private List<BugsComments> comments = new ArrayList<>();
 	
 	public void addComment(BugsComments comment) {

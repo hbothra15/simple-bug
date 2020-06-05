@@ -28,7 +28,7 @@ import io.github.hbothra.simplebugtracker.eo.StatusType;
 @SpringBootTest
 @AutoConfigureDataJpa
 @ActiveProfiles("test")
-@TestPropertySource(properties = { "spring.jpa.hibernate.ddl-auto=create" })
+@TestPropertySource(properties = { "spring.jpa.hibernate.ddl-auto=update" })
 @TestMethodOrder(OrderAnnotation.class)
 public class StatusTypeRepoTest {
 

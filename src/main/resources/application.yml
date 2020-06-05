@@ -24,11 +24,8 @@ user:
       expiration-sec: 3600
 logging:
     file: ./logs/application-debug.log
-    pattern:
-        console: '%d{yyyy-MM-dd HH:mm:ss} - %msg%n'
-        file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
     level:
-       root: ERROR
+       root: WARN
        com:
           github:
              hbothra: INFO
@@ -61,7 +58,7 @@ spring:
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL5Dialect
-                format_sql: true'
+                format_sql: true
 management:
    endpoints:
       web:

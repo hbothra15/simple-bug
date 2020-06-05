@@ -18,6 +18,7 @@ import io.github.hbothra.simplebugtracker.service.BugService;
 
 @RestController
 @RequestMapping("/api/bugs")
+@PreAuthorize("hasRole('VENDOR') or hasRole('SUPPORT') or hasRole('ADMIN')")
 public class BugsController {
 	
 	@Autowired
@@ -36,14 +37,14 @@ public class BugsController {
 	}
 	
 	@GetMapping("/{id}/comments")
-	@PreAuthorize("hasRole('VENDOR') or hasRole('SUPPORT') or hasRole('ADMIN')")
 	public List<BugCommentsRo> getBugComments(@PathVariable("id") long id) {
 		return bugService.getAllComments(id);
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasRole('VENDOR') or hasRole('SUPPORT') or hasRole('ADMIN')")
-	public BugRo addBug(@RequestBody BugRo bug) {
+	public BugRo addBug(@RequestBody BugRo bug, @AuthenticationPrincipal(expression = "userId") Long userId) {
+		bug.setCreatedById(userId);
+		bug.setModifiedById(userId);
 		return bugService.addBug(bug);
 	}
 	

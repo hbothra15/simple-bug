@@ -13,10 +13,10 @@ import lombok.EqualsAndHashCode;
 public class BugRo extends AuditTrailRo {
 
 	private Long bugId;
+	private Long project;
 	private String title;
 	private String descr;
 	private String bugType;
-	private String bugTypeId;
 	private String bugStatus ;
 	private SimpleUserRo assignedTo;
 	private Long assignedToId;
