@@ -47,6 +47,8 @@ mvn clean install sonar:sonar
 - https://vladmihalcea.com/the-best-way-to-map-the-discriminatorcolumn-with-jpa-and-hibernate/ For using lookup table
 
 ## Release Note
+* 2020.06.06
+	- Moving away from @version on modifiedOn field to a dedicated field to avoid various issues as mentioned at https://thorben-janssen.com/hibernate-tips-use-timestamp-versioning-optimistic-locking/
 * 2020.06.05
 	- Updating JUnit and reached upto ~25% coverage as per Sonar
 	- Add Endpoint to add Bug which is accessible to all type of user 

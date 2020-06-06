@@ -18,24 +18,27 @@ import lombok.Data;
 @Data
 public class AuditTrail {
 
-	@Version
-	@Column(name="MODIFIED_ON", nullable = false, columnDefinition = "TIMESTAMP")
+	@Column(name = "MODIFIED_ON", nullable = false, columnDefinition = "TIMESTAMP")
 	private LocalDateTime modifiedOn;
-	
-	@JoinColumn(name="MODIFIED_BY",insertable = false, updatable = false)
+
+	@JoinColumn(name = "MODIFIED_BY", insertable = false, updatable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private SimpleUser modifiedBy;
-	
+
 	@Column(name = "MODIFIED_BY")
 	private Long modifiedById;
-	
-	@Column(name="CREATED_ON", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
+
+	@Column(name = "CREATED_ON", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
 	private LocalDateTime createdOn;
-	
-	@JoinColumn(name="CREATED_BY", updatable = false, insertable = false)
+
+	@JoinColumn(name = "CREATED_BY", updatable = false, insertable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private SimpleUser createdBy;
-	
+
 	@Column(name = "CREATED_BY", updatable = false)
 	private Long createdById;
+
+	@Version
+	@Column(name = "VERSION")
+	private long version = 1l;
 }

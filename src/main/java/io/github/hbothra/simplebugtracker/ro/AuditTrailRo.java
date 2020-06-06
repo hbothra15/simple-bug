@@ -9,5 +9,5 @@ public class AuditTrailRo {
 	private SimpleUserRo createdBy;
 	private Long modifiedById;
 	private Long createdById;
-	
+	private long version;
 }

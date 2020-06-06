@@ -99,6 +99,7 @@ public class BugServiceTest {
 		assertTrue(currentTime.truncatedTo(ChronoUnit.MINUTES)
 				.isEqual(actual.getModifiedOn().truncatedTo(ChronoUnit.MINUTES)));
 		assertEquals("ADMIN", actual.getAssignedTo().getName());
+		assertEquals(0L, actual.getVersion());
 	}
 	
 	@Test
@@ -129,6 +130,7 @@ public class BugServiceTest {
 				.isEqual(actual.getModifiedOn().truncatedTo(ChronoUnit.MINUTES)));
 		assertNull(actual.getAssignedTo());
 		assertEquals(1L, actual.getProject());
+		assertEquals(0L, actual.getVersion());
 	}
 	
 	@Test
@@ -160,6 +162,7 @@ public class BugServiceTest {
 				.isEqual(actual.getModifiedOn().truncatedTo(ChronoUnit.MINUTES)));
 		assertNull(actual.getAssignedTo());
 		assertEquals(1L, actual.getProject());
+		assertEquals(0L, actual.getVersion());
 	}
 
 	@Test
