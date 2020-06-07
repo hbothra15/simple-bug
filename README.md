@@ -47,6 +47,10 @@ mvn clean install sonar:sonar
 - https://vladmihalcea.com/the-best-way-to-map-the-discriminatorcolumn-with-jpa-and-hibernate/ For using lookup table
 
 ## Release Note
+* 2020.06.07
+	- Removed the complete logic of updating Bug History table as it is error prone, need to find an alternative to get that fixed
+	- Removed the support for multiLingual as need to find alternative of Using MessageSource along with ConfigurableProperties
+	- Adding the logic to update existing bug and Junit around that to reach coverage of 28% as per Sonar 
 * 2020.06.06
 	- Moving away from @version on modifiedOn field to a dedicated field to avoid various issues as mentioned at https://thorben-janssen.com/hibernate-tips-use-timestamp-versioning-optimistic-locking/
 * 2020.06.05

@@ -23,6 +23,8 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlConfig.TransactionMode;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import io.github.hbothra.simplebugtracker.ro.BugCommentsRo;
 import io.github.hbothra.simplebugtracker.ro.BugRo;
 import io.github.hbothra.simplebugtracker.ro.SimpleUserRo;
@@ -163,6 +165,25 @@ public class BugServiceTest {
 		assertNull(actual.getAssignedTo());
 		assertEquals(1L, actual.getProject());
 		assertEquals(0L, actual.getVersion());
+	}
+	
+	@Test
+	@Order(8)
+	public void testUpdateBug() throws JsonProcessingException {
+		BugRo expected = new BugRo();
+		expected.setBugId(2L);
+		expected.setVersion(1L);
+		expected.setModifiedById(3L);
+		expected.setDescr("Newley updated description");
+		expected.setBugStatus("FIXED");
+		
+		BugRo actual = details.updateBug(expected);
+		assertEquals(expected.getBugId(), actual.getBugId());
+		assertEquals("INSTALLATION", actual.getBugType());
+		assertEquals(expected.getBugStatus(), actual.getBugStatus());
+		assertEquals(1L, actual.getAssignedToId());
+		assertEquals("Newley updated description", actual.getDescr());
+		assertEquals(2L, actual.getVersion());
 	}
 
 	@Test

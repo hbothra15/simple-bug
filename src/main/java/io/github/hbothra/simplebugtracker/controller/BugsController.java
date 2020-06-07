@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +47,12 @@ public class BugsController {
 		bug.setCreatedById(userId);
 		bug.setModifiedById(userId);
 		return bugService.addBug(bug);
+	}
+	
+	@PutMapping
+	public BugRo updateBug(@RequestBody BugRo bug, @AuthenticationPrincipal(expression = "userId") Long userId) {
+		bug.setModifiedById(userId);
+		return bugService.updateBug(bug);
 	}
 	
 }

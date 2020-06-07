@@ -16,12 +16,6 @@ spring:
             hibernate:
                 id:
                     new_generator_mappings: false
-
-user:
-   auth:
-      issuer: simple-bug
-      secret: top-secret
-      expiration-sec: 3600
 logging:
     file: ./logs/application-debug.log
     level:
@@ -44,7 +38,28 @@ management:
    endpoints:
       web:
          exposure:
-            include: env,info,health  
+            include: env,info,health
+# Application's properties
+message:
+    userNotFound: Unable to find any user with email/contact %s, Please contact your Admin
+user:
+    auth:
+        issuer: simple-bug
+        secret: top-secret
+        expiration-sec: 3600
+        tokenMissing: Unable to find Authentication Token
+        userTokenNotFound: Unable to find any user with %s token
+    message:
+        enityNotFound: User with %s name doesn't exists
+bug:
+    message:
+        bugIdNotFound: Invalid Bug ID
+        bugStatusNotFound: Invalid Bug Status
+        bugTypeNotFound: Invalid Bug Type
+        bugVersionNotFound: Version is mandate
+        createdByNotFound: Bug Modified by details are missing
+        entityNotFound: Bug with %s id doesn\'t exists
+        modifiedByNotFound: Bug Modified by details are missing
 ---
 spring:
     profiles: dev
