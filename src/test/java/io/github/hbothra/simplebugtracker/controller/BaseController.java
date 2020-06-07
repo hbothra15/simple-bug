@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -15,6 +16,7 @@ import io.github.hbothra.simplebugtracker.eo.SimpleUser;
 import io.github.hbothra.simplebugtracker.eo.UserType;
 import io.github.hbothra.simplebugtracker.repo.UserRepo;
 
+@TestPropertySource(properties = { "spring.jpa.hibernate.ddl-auto=none" })
 public class BaseController {
 
 	@MockBean

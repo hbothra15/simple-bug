@@ -23,17 +23,17 @@ public class BugBase extends AuditTrail {
 	private String descr;
 		
 	@JoinColumn(name="BUG_TYPE", nullable = false)
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private BugType bugType;
 	
 	@JoinColumn(name="BUG_STATUS", nullable = false)
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private StatusType bugStatus;
 	
-	@JoinColumn(name="ASSIGNED_TO",insertable = false, updatable = false)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="ASSIGNED_TO",insertable = false, updatable = false, nullable = true)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private SimpleUser assignedTo;
 	
-	@Column(name = "ASSIGNED_TO")
+	@Column(name = "ASSIGNED_TO", nullable = true)
 	private Long assignedToId;
 }

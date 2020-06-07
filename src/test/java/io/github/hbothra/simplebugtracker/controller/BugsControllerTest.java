@@ -1,5 +1,6 @@
 package io.github.hbothra.simplebugtracker.controller;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -8,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,11 +20,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import io.github.hbothra.simplebugtracker.eo.BugType;
 import io.github.hbothra.simplebugtracker.eo.Bugs;
 import io.github.hbothra.simplebugtracker.eo.BugsComments;
+import io.github.hbothra.simplebugtracker.eo.StatusType;
 import io.github.hbothra.simplebugtracker.repo.BugCommentsRepo;
+import io.github.hbothra.simplebugtracker.repo.BugTypeRepo;
 import io.github.hbothra.simplebugtracker.repo.BugsHistoryRepo;
 import io.github.hbothra.simplebugtracker.repo.BugsRepository;
+import io.github.hbothra.simplebugtracker.repo.StatusTypeRepo;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,6 +42,12 @@ public class BugsControllerTest extends BaseController {
 	private BugsHistoryRepo hisRepo;
 	
 	@MockBean
+	private BugTypeRepo bugTypeRepo;
+	
+	@MockBean
+	private StatusTypeRepo statusRepo;
+	
+	@MockBean
 	private BugCommentsRepo commRepo;
 
 	private List<Bugs> mockedBugs;
@@ -45,15 +58,40 @@ public class BugsControllerTest extends BaseController {
 	
 	private static final String BUG_DESCR="Mocked Bug Description";
 	
+	// @formatter:off
+	private static final String CREATE_BUG_JSON = "{"
+			+ "\"title\": \"Title\","
+			+ "\"descr\": \"A very long Description is expected over here\","
+			+ "\"assignedToId\" : 1,"
+			+ "\"bugStatus\" : \"TO_DO\","
+			+ "\"bugType\" : \"REPAIR\""
+			+ "}";
+	// @formatter:on
+	
+	private void mockBugList(int noOfBugs) {
+		assertTrue(noOfBugs>0, "Need to atleast 1 bug to add to list");
+		mockedBugs = new ArrayList<>();
+		
+		BugType bugtype = new BugType();
+		bugtype.setLookupValue("REPAIR");
+		
+		StatusType bugStatus = new StatusType();
+		bugStatus.setLookupValue("TO DO");
+		
+		IntStream.range(1, noOfBugs+1).forEach(count -> {
+			Bugs bugs = new Bugs();
+			bugs.setBugId(Long.valueOf(count));
+			bugs.setTitle(BUG_TITLE+count);
+			bugs.setDescr(BUG_DESCR+count);
+			bugs.setBugType(bugtype);
+			bugs.setBugStatus(bugStatus);
+			mockedBugs.add(bugs);
+		});
+	}
 	
 	@Test
 	public void testFindAll() throws Exception {
-		mockedBugs = new ArrayList<>();
-		Bugs bugs = new Bugs();
-		bugs.setBugId(1L);
-		bugs.setTitle(BUG_TITLE);
-		bugs.setDescr(BUG_DESCR);
-		mockedBugs.add(bugs);
+		mockBugList(1);
 		when(bugRepo.findAll()).thenReturn(mockedBugs);
 		
 		String authToken = getToken(ROLE_ADMIN);
@@ -61,8 +99,8 @@ public class BugsControllerTest extends BaseController {
 					.andExpect(status().isOk())
 					.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 					.andExpect(jsonPath("$[0].bugId").value(1L))
-					.andExpect(jsonPath("$[0].title").value(BUG_TITLE))
-					.andExpect(jsonPath("$[0].descr").value(BUG_DESCR));
+					.andExpect(jsonPath("$[0].title").value(BUG_TITLE+1))
+					.andExpect(jsonPath("$[0].descr").value(BUG_DESCR+1));
 		
 		authToken = getToken(ROLE_VIEW);
 		mvc.perform(MockMvcRequestBuilders.get("/api/bugs").header("Authorization", "Bearer " + authToken))
@@ -71,17 +109,7 @@ public class BugsControllerTest extends BaseController {
 	
 	@Test
 	public void testFetchAllBugsBasedOnUserId() throws Exception {
-		mockedBugs = new ArrayList<>();
-		Bugs bug1 = new Bugs();
-		bug1.setBugId(1L);
-		bug1.setTitle(BUG_TITLE+1);
-		bug1.setDescr(BUG_DESCR+1);
-		Bugs bug2 = new Bugs();
-		bug2.setBugId(2L);
-		bug2.setTitle(BUG_TITLE+2);
-		bug2.setDescr(BUG_DESCR+2);
-		mockedBugs.add(bug1);
-		mockedBugs.add(bug2);
+		mockBugList(2);
 		when(bugRepo.findAllById(any())).thenReturn(mockedBugs);
 		
 		String authToken = getToken(ROLE_ADMIN);
@@ -117,14 +145,10 @@ public class BugsControllerTest extends BaseController {
 	
 	@Test
 	public void testGetBugComments() throws Exception {
-		
+		mockBugList(1);
 		mockedComments = new ArrayList<>();
 		BugsComments comment1 = new BugsComments();
-		Bugs bug1 = new Bugs();
-		bug1.setBugId(1L);
-		bug1.setTitle(BUG_TITLE+1);
-		bug1.setDescr(BUG_DESCR+1);
-		comment1.setBug(bug1);
+		comment1.setBug(mockedBugs.get(0));
 		comment1.setCommentId(1L);
 		comment1.setComments("Comment");
 		comment1.setCreatedById(1L);
@@ -146,5 +170,21 @@ public class BugsControllerTest extends BaseController {
 			.andExpect(jsonPath("$[0].bug.bugId").value(1L))
 			.andExpect(jsonPath("$[0].comments").value("Comment"))
 			.andExpect(jsonPath("$[0].createdById").value(1L));
+	}
+	
+	@Test
+	public void testAddBug() throws Exception {
+		mockBugList(1);
+		when(bugRepo.save(any())).thenReturn(mockedBugs.get(0));
+		when(bugTypeRepo.findByLookupValue("REPAIR")).thenReturn(Optional.of(new BugType()));
+		when(statusRepo.findByLookupValue("TO_DO")).thenReturn(Optional.of(new StatusType()));
+		
+		String authToken = getToken(ROLE_VIEW);
+		mvc.perform(MockMvcRequestBuilders.post("/api/bugs").header("Authorization", "Bearer " + authToken).contentType(MediaType.APPLICATION_JSON).content(CREATE_BUG_JSON))
+			.andExpect(status().isForbidden());
+		
+		authToken = getToken(ROLE_VENDOR);
+		mvc.perform(MockMvcRequestBuilders.post("/api/bugs").header("Authorization", "Bearer " + authToken).contentType(MediaType.APPLICATION_JSON).content(CREATE_BUG_JSON))
+			.andExpect(status().isOk());
 	}
 }

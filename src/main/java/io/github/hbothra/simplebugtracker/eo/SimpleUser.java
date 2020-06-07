@@ -31,7 +31,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name="USER")
+@Table(name="USERS")
 @NamedEntityGraph(name="User.role", attributeNodes = @NamedAttributeNode("roles"))
 public class SimpleUser extends AuditTrail implements User {
 

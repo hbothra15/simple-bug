@@ -2,11 +2,14 @@ package io.github.hbothra.simplebugtracker.ro;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
+@JsonAutoDetect
 public class SimpleUserRo extends AuditTrailRo {
 
 	private Long userId;

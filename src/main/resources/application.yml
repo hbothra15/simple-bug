@@ -16,18 +16,50 @@ spring:
             hibernate:
                 id:
                     new_generator_mappings: false
-
-user:
-   auth:
-      issuer: simple-bug
-      secret: top-secret
-      expiration-sec: 3600
-
+logging:
+    file: ./logs/application-debug.log
+    level:
+       root: WARN
+       com:
+          github:
+             hbothra: INFO
+       io:
+          github:
+             hbothra: INFO
+       org:
+          springframework: ERROR
+          hibernate:
+             SQL: WARN
+             type:
+                descriptor:
+                   sql:
+                      BasicBinder: WARN
 management:
    endpoints:
       web:
          exposure:
-            include: env,info,health  
+            include: env,info,health
+# Application's properties
+message:
+    userNotFound: Unable to find any user with email/contact %s, Please contact your Admin
+user:
+    auth:
+        issuer: simple-bug
+        secret: top-secret
+        expiration-sec: 3600
+        tokenMissing: Unable to find Authentication Token
+        userTokenNotFound: Unable to find any user with %s token
+    message:
+        enityNotFound: User with %s name doesn't exists
+bug:
+    message:
+        bugIdNotFound: Invalid Bug ID
+        bugStatusNotFound: Invalid Bug Status
+        bugTypeNotFound: Invalid Bug Type
+        bugVersionNotFound: Version is mandate
+        createdByNotFound: Bug Modified by details are missing
+        entityNotFound: Bug with %s id doesn\'t exists
+        modifiedByNotFound: Bug Modified by details are missing
 ---
 spring:
     profiles: dev
@@ -42,20 +74,21 @@ spring:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL5Dialect
                 format_sql: true
-logging:
-    level:
-        org:
-            hibernate:
-                SQL: DEBUG
-                type:
-                    descriptor:
-                        sql:
-                            BasicBinder: 'TRACE'
 management:
    endpoints:
       web:
          exposure:
             include: env,info,health,httptrace,logfile,metrics,mappings,beans
+
+logging:
+    level:
+       org:
+          hibernate:
+             SQL: DEBUG
+             type:
+                descriptor:
+                   sql:
+                      BasicBinder: TRACE
 ---
 spring:
     profiles: test
@@ -75,10 +108,17 @@ spring:
                 format_sql: true
 logging:
     level:
-        org:
-            hibernate:
-                SQL: DEBUG
-                type:
-                    descriptor:
-                        sql:
-                            BasicBinder: 'TRACE'
+       com:
+          github:
+             hbothra: DEBUG
+       io:
+          github:
+             hbothra: DEBUG
+       org:
+          springframework: INFO
+          hibernate:
+             SQL: DEBUG
+             type:
+                descriptor:
+                   sql:
+                      BasicBinder: TRACE

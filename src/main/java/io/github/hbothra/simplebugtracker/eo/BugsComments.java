@@ -1,11 +1,13 @@
 package io.github.hbothra.simplebugtracker.eo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -27,10 +29,11 @@ public class BugsComments extends AuditTrail {
 	@EqualsAndHashCode.Include
 	private Long commentId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "BUG_ID", nullable = false)
 	private Bugs bug;
 	
-	@Column(name="BUG_ID", nullable = false, insertable = false, updatable = false)
+	@Column(name="BUG_ID", insertable = false, updatable = false, nullable = false)
 	private Long bugId;
 	
 	@Column(name="COMMENTS", nullable = false, length = 1000)
