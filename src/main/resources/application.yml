@@ -40,6 +40,8 @@ management:
          exposure:
             include: env,info,health
 # Application's properties
+cloner:
+    showCloneDump: false
 message:
     userNotFound: Unable to find any user with email/contact %s, Please contact your Admin
 user:
@@ -57,7 +59,7 @@ bug:
         bugStatusNotFound: Invalid Bug Status
         bugTypeNotFound: Invalid Bug Type
         bugVersionNotFound: Version is mandate
-        createdByNotFound: Bug Modified by details are missing
+        createdByNotFound: Bug Created by details are missing
         entityNotFound: Bug with %s id doesn\'t exists
         modifiedByNotFound: Bug Modified by details are missing
 ---
@@ -122,3 +124,5 @@ logging:
                 descriptor:
                    sql:
                       BasicBinder: TRACE
+cloner:
+    showCloneDump: true

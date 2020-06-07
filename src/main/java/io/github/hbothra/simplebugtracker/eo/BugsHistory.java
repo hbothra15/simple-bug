@@ -39,5 +39,10 @@ public class BugsHistory extends BugBase {
 		this.setModifiedBy(base.getModifiedBy());
 		this.setModifiedOn(base.getModifiedOn());
 		this.setTitle(base.getTitle());
+		this.setAssignedTo(base.getAssignedTo());
+		this.setAssignedToId(base.getAssignedToId());
+		this.setCreatedBy(base.getCreatedBy());
+		this.setCreatedById(base.getCreatedById());
+		this.setVersion(base.getVersion());
 	}
 }

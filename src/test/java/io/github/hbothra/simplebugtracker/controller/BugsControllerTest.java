@@ -68,6 +68,15 @@ public class BugsControllerTest extends BaseController {
 			+ "}";
 	// @formatter:on
 	
+	// @formatter:off
+		private static final String UPDATE_BUG_JSON = "{"
+				+ "\"title\": \"Title\","
+				+ "\"descr\": \"A very long Description is expected over here\","
+				+ "\"assignedToId\" : 2,"
+				+ "\"bugId\" : 1"
+				+ "}";
+		// @formatter:on
+	
 	private void mockBugList(int noOfBugs) {
 		assertTrue(noOfBugs>0, "Need to atleast 1 bug to add to list");
 		mockedBugs = new ArrayList<>();
@@ -76,7 +85,7 @@ public class BugsControllerTest extends BaseController {
 		bugtype.setLookupValue("REPAIR");
 		
 		StatusType bugStatus = new StatusType();
-		bugStatus.setLookupValue("TO DO");
+		bugStatus.setLookupValue("TO_DO");
 		
 		IntStream.range(1, noOfBugs+1).forEach(count -> {
 			Bugs bugs = new Bugs();
@@ -175,7 +184,7 @@ public class BugsControllerTest extends BaseController {
 	@Test
 	public void testAddBug() throws Exception {
 		mockBugList(1);
-		when(bugRepo.save(any())).thenReturn(mockedBugs.get(0));
+		when(bugRepo.saveAndFlush(any())).thenReturn(mockedBugs.get(0));
 		when(bugTypeRepo.findByLookupValue("REPAIR")).thenReturn(Optional.of(new BugType()));
 		when(statusRepo.findByLookupValue("TO_DO")).thenReturn(Optional.of(new StatusType()));
 		
@@ -185,6 +194,35 @@ public class BugsControllerTest extends BaseController {
 		
 		authToken = getToken(ROLE_VENDOR);
 		mvc.perform(MockMvcRequestBuilders.post("/api/bugs").header("Authorization", "Bearer " + authToken).contentType(MediaType.APPLICATION_JSON).content(CREATE_BUG_JSON))
-			.andExpect(status().isOk());
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$.bugId").value(1L))
+			.andExpect(jsonPath("$.title").value(BUG_TITLE+1))
+			.andExpect(jsonPath("$.descr").value(BUG_DESCR+1));
+	}
+	
+	@Test
+	public void testUpdateBug() throws Exception {
+		mockBugList(1);
+		mockedBugs.get(0).setCreatedById(1L);
+		when(bugRepo.findById(1L)).thenReturn(Optional.of(mockedBugs.get(0)));
+		when(bugRepo.saveAndFlush(any(Bugs.class))).thenAnswer(i -> i.getArgument(0));
+		when(bugTypeRepo.findByLookupValue("REPAIR")).thenReturn(Optional.of(mockedBugs.get(0).getBugType()));
+		when(statusRepo.findByLookupValue("TO_DO")).thenReturn(Optional.of(mockedBugs.get(0).getBugStatus()));
+		
+		String authToken = getToken(ROLE_VIEW);
+		mvc.perform(MockMvcRequestBuilders.put("/api/bugs").header("Authorization", "Bearer " + authToken).contentType(MediaType.APPLICATION_JSON).content(CREATE_BUG_JSON))
+			.andExpect(status().isForbidden());
+		
+		authToken = getToken(ROLE_VENDOR);
+		mvc.perform(MockMvcRequestBuilders.put("/api/bugs").header("Authorization", "Bearer " + authToken).contentType(MediaType.APPLICATION_JSON).content(UPDATE_BUG_JSON))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$.bugId").value(1L))
+			.andExpect(jsonPath("$.title").value("Title"))
+			.andExpect(jsonPath("$.descr").value("A very long Description is expected over here"))
+			.andExpect(jsonPath("$.assignedToId").value(2L))
+			.andExpect(jsonPath("$.bugStatus").value("TO_DO"))
+			.andExpect(jsonPath("$.bugType").value("REPAIR"));
 	}
 }

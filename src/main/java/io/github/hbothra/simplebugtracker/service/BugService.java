@@ -1,5 +1,6 @@
 package io.github.hbothra.simplebugtracker.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -14,6 +15,7 @@ import org.springframework.util.Assert;
 import io.github.hbothra.simplebugtracker.eo.BugType;
 import io.github.hbothra.simplebugtracker.eo.Bugs;
 import io.github.hbothra.simplebugtracker.eo.StatusType;
+import io.github.hbothra.simplebugtracker.mapper.BugsHistoryMapper;
 import io.github.hbothra.simplebugtracker.mapper.BugsMapper;
 import io.github.hbothra.simplebugtracker.mapper.CommentsMapper;
 import io.github.hbothra.simplebugtracker.messages.BugMessages;
@@ -25,6 +27,7 @@ import io.github.hbothra.simplebugtracker.repo.StatusTypeRepo;
 import io.github.hbothra.simplebugtracker.repo.UserRepo;
 import io.github.hbothra.simplebugtracker.ro.BugCommentsRo;
 import io.github.hbothra.simplebugtracker.ro.BugRo;
+import io.github.hbothra.simplebugtracker.utils.PojoUtils;
 
 @Component
 @Transactional
@@ -53,6 +56,9 @@ public class BugService {
 
 	@Autowired
 	private CommentsMapper commentMapper;
+	
+	@Autowired
+	private BugsHistoryMapper hisMapper;
 
 	@Autowired
 	private BugMessages messages;
@@ -109,9 +115,15 @@ public class BugService {
 		Assert.notNull(bug.getVersion(), messages.getBugVersionNotFound());
 
 		BugRo target = findById(bug.getBugId());
-		ServiceUtils.updateTaregtWithValues(bug, target);
+		PojoUtils.updateTaregtWithValues(bug, target);
 
 		return addBug(target);
 	}
 
+	public List<BugRo> getBugTimeLine(long bugId) {
+		List<BugRo> bugTimeLine = new ArrayList<>();
+		bugTimeLine.add(findById(bugId));
+		bugTimeLine.addAll(hisMapper.sourceToDestination(hisRepo.findAllByBugIdOrderByModifiedOnDesc(bugId)));
+		return bugTimeLine;
+	}
 }

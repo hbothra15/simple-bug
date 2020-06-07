@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -37,6 +38,9 @@ public class Bugs extends BugBase {
 
 	@OneToMany(mappedBy = "bug", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
 	private List<BugsComments> comments = new ArrayList<>();
+	
+	@Transient
+	private Bugs beforeChange;
 	
 	public void addComment(BugsComments comment) {
         comments.add(comment);

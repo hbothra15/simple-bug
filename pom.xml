@@ -119,6 +119,12 @@
 			<artifactId>disruptor</artifactId>
 			<version>3.4.2</version>
 		</dependency>
+		<!-- To Allow cloning of all type of Objects regardless they are Serializable or not -->
+		<dependency>
+			<groupId>io.github.kostaskougios</groupId>
+			<artifactId>cloning</artifactId>
+			<version>1.10.3</version>
+		</dependency>
 		<!-- For JUnit support with Spring test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

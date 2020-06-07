@@ -3,11 +3,14 @@ package io.github.hbothra.simplebugtracker.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -176,14 +179,37 @@ public class BugServiceTest {
 		expected.setModifiedById(3L);
 		expected.setDescr("Newley updated description");
 		expected.setBugStatus("FIXED");
+		expected.setAssignedToId(2L);
 		
 		BugRo actual = details.updateBug(expected);
 		assertEquals(expected.getBugId(), actual.getBugId());
 		assertEquals("INSTALLATION", actual.getBugType());
 		assertEquals(expected.getBugStatus(), actual.getBugStatus());
-		assertEquals(1L, actual.getAssignedToId());
+		assertEquals(2L, actual.getAssignedToId());
 		assertEquals("Newley updated description", actual.getDescr());
 		assertEquals(2L, actual.getVersion());
+		
+		List<BugRo> bugTimeLine = details.getBugTimeLine(expected.getBugId());
+		assertEquals(2, bugTimeLine.size());
+		assertEquals("IN_PROGRESS", bugTimeLine.get(1).getBugStatus());
+		assertEquals(1L, bugTimeLine.get(1).getVersion());
+		assertEquals(1L, bugTimeLine.get(1).getModifiedById());
+		assertEquals(1L, bugTimeLine.get(1).getAssignedToId());
+	}
+	
+	@Test
+	@Order(9)
+	public void testUpdateInvalidBugId() {
+		BugRo expected = new BugRo();
+		expected.setBugId(221L);
+		expected.setVersion(1L);
+		expected.setModifiedById(3L);
+		expected.setDescr("Newley updated description");
+		expected.setBugStatus("FIXED");
+		expected.setAssignedToId(2L);
+		assertThrows(EntityNotFoundException.class, () -> {
+			details.updateBug(expected);
+		});
 	}
 
 	@Test

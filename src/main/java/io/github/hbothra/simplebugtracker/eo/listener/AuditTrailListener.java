@@ -13,11 +13,11 @@ public class AuditTrailListener {
 	private void beforePersist(AuditTrail audit) {
 		audit.setCreatedOn(LocalDateTime.now());
 		audit.setModifiedOn(LocalDateTime.now());
-		if(audit.getCreatedBy() != null) {
+		if(null == audit.getCreatedById() && null != audit.getCreatedBy()) {
 			audit.setCreatedById(audit.getCreatedBy().getUserId());
 		}
 		
-		if(audit.getModifiedBy() != null) {
+		if(null == audit.getModifiedById() && null != audit.getModifiedBy()) {
 			audit.setModifiedById(audit.getModifiedBy().getUserId());
 		}
 	}
@@ -25,7 +25,7 @@ public class AuditTrailListener {
 	@PreUpdate
 	private void beforeUpdate(AuditTrail audit) {
 		audit.setModifiedOn(LocalDateTime.now());
-		if(audit.getModifiedBy() != null) {
+		if(null == audit.getModifiedById() && null != audit.getModifiedBy()) {
 			audit.setModifiedById(audit.getModifiedBy().getUserId());
 		}
 	}
